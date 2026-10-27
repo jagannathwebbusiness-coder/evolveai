@@ -561,3 +561,25 @@ def test_unrecovered_tool_failure_cannot_finish_successfully():
         assert "final_answer" not in [
             event["kind"] for event in result.json()["detail"]["activity"]
         ]
+
+
+def test_plain_greeting_finishes_without_a_tool():
+    settings = Settings(_env_file=None)
+    with TestClient(
+        create_app(
+            settings,
+            transport([PLAN, action(kind="finish", summary="Hello! How can I help?")]),
+        )
+    ) as client:
+        response = request(client, "hi", demo_tools=False)
+    assert response.status_code == 200, response.text
+    assert response.json()["message"] == "Hello! How can I help?"
+
+
+def test_numeric_question_still_needs_a_tool():
+    settings = Settings(_env_file=None)
+    with TestClient(
+        create_app(settings, transport([PLAN] + [action(kind="finish", summary="42")] * 6))
+    ) as client:
+        response = request(client, "What is 17 plus 25?", demo_tools=False)
+    assert response.status_code == 422

@@ -249,6 +249,20 @@ class TaskPolicy:
         if name == "calculate" and self.arithmetic == arguments:
             self.arithmetic_done = True
 
+    def conversational(self):
+        """Plain chat (greetings, general questions): nothing to compute, read or attach."""
+        return not (
+            self.requirements
+            or self.missing_operands
+            or self.csv
+            or self.workspace
+            or self.report
+            or self.arithmetic
+            or self.paths
+            or self.body.upload_ids
+            or re.search(r"\d", self.goal)
+        )
+
     def missing(self):
         missing = [item["label"] for item in self.pending()]
         if self.arithmetic and not self.arithmetic_done:

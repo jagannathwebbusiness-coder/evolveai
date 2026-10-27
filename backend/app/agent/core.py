@@ -638,7 +638,7 @@ class CoreAgent(AgentLoop):
             if action.kind == "finish":
                 required = body.tool_choice if body.tool_choice != "auto" else None
                 if (
-                    successful
+                    (successful or policy.conversational())
                     and not unresolved
                     and not policy.missing()
                     and (not required or required in successful)
