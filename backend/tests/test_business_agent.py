@@ -672,3 +672,18 @@ def test_create_report_tool_name_counts_as_an_explicit_report_request():
         SimpleNamespace(upload_ids=[]),
     )
     assert policy.report
+
+
+def test_numberless_business_request_asks_for_inputs_instead_of_failing():
+    with TestClient(
+        create_app(Settings(_env_file=None), transport([]))
+    ) as client:
+        response = request(
+            client,
+            goal="create a tool that helps me manage my whole profit and loss",
+            demo_tools=False,
+        )
+        assert response.status_code == 200, response.text
+        assert "need your numbers" in response.json()["message"]
+        kinds = [e["kind"] for e in response.json()["activity"]]
+        assert "needs_input" in kinds

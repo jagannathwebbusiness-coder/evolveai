@@ -28,6 +28,7 @@ const KIND_STAGE: Record<string, Stage> = {
   tool_catalog_filtered: "setup",
   plan_created: "setup",
   goal_validation_failed: "fail",
+  needs_input: "setup",
   model_request: "decide",
   current_step: "decide",
   batch_deferred: "decide",

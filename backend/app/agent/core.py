@@ -457,6 +457,32 @@ class CoreAgent(AgentLoop):
             raise LLMError(503, status.status, status.message)
         goal = body.messages[-1].content
         policy = TaskPolicy(goal, body)
+        if policy.missing_operands and not re.search(r"\d", goal):
+            # No numbers at all: a request for help, not a calculation. Ask instead of failing.
+            lines = []
+            for name in policy.missing_operands:
+                spec = BY_NAME[name]
+                fields = ", ".join(spec.inputs.get("required", []))
+                lines.append(f"- **{name.replace('business_', '').replace('_', ' ')}**: {fields}")
+            self.record(
+                "needs_input",
+                "The request names a business calculation but gives no numbers; asking for them instead of inventing any.",
+                result={"capabilities": policy.missing_operands},
+            )
+            self.record("final_answer", "Asked the user for the missing inputs.")
+            return ChatResponse(
+                model=self.settings.llm_model,
+                message=(
+                    "I can calculate this exactly, but I need your numbers first. "
+                    "Send them in one message, for example `revenue 50000, costs 32000`:\n\n"
+                    + "\n".join(lines)
+                    + "\n\nTip: attach a CSV or Excel file to analyse a whole sheet of figures."
+                ),
+                task_id=self.task_id,
+                activity=self.activity,
+                truncated=False,
+                duration_ms=round((perf_counter() - started) * 1000),
+            )
         if policy.missing_operands:
             self.record(
                 "goal_validation_failed",
