@@ -1,0 +1,79 @@
+{
+  "manifest": {
+    "name": "candidate_median_f0dcc525bc",
+    "description": "Median of 1..20 integers in [-1000000,1000000]; return {median: float}. DEMO ONLY: executes Python in an unsecured local subprocess.",
+    "demo_contract": "median-numbers-v1",
+    "test_provenance": "backend_independent_demo",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "numbers": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -1000000,
+            "maximum": 1000000
+          },
+          "minItems": 1,
+          "maxItems": 20
+        }
+      },
+      "required": [
+        "numbers"
+      ],
+      "additionalProperties": false
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "median": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "median"
+      ],
+      "additionalProperties": false
+    },
+    "dependencies": [],
+    "permissions": [
+      "pure_json"
+    ],
+    "replaces": null,
+    "generated_tests": [
+      {
+        "label": "unsorted odd",
+        "category": "valid",
+        "input": {
+          "numbers": [
+            9,
+            1,
+            4
+          ]
+        },
+        "expected": {
+          "median": 4.0
+        },
+        "reject": false
+      },
+      {
+        "label": "unsorted even",
+        "category": "valid",
+        "input": {
+          "numbers": [
+            9,
+            1,
+            4,
+            7
+          ]
+        },
+        "expected": {
+          "median": 5.5
+        },
+        "reject": false
+      }
+    ]
+  },
+  "source_hash": "c4e220032954918fdb00f5cde0b4086f4f49027128a7da3d045dbf7ccafb0059",
+  "version_id": "14fcdc7c-2c2a-41ea-b759-27391503ba2b"
+}

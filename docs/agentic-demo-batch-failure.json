@@ -1,0 +1,503 @@
+{
+  "model": "qwen2.5:3b",
+  "data_dir": "D:\\evolve ai\\data\\agentic-demo\\97634b3b-1834-43d2-8a9a-4ebbf16e286c",
+  "real_ollama": true,
+  "secure_sandbox": false,
+  "tasks": [
+    {
+      "goal": "Find the median of [9, 1, 4, 7]. Use the median capability and verify the result.",
+      "http_status": 422,
+      "response": {
+        "detail": {
+          "code": "tool_batch_blocked",
+          "message": "Agent requested multiple simultaneous calls. This loop requires one observed result before selecting the next action.",
+          "task_id": "a85d9705-d100-4f45-bcd7-dea1fd578347",
+          "activity": [
+            {
+              "sequence": 1,
+              "kind": "processing_request",
+              "message": "Processing tool-enabled request.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": null
+            },
+            {
+              "sequence": 2,
+              "kind": "strategy_evidence",
+              "message": "Loaded measured successful tool strategies from saved tasks.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "strategies": [],
+                "model_weight_learning": false
+              }
+            },
+            {
+              "sequence": 3,
+              "kind": "model_request",
+              "message": "Requesting a structured decision from local Ollama.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "schema": "Plan",
+                "attempt": 1
+              }
+            },
+            {
+              "sequence": 4,
+              "kind": "plan_created",
+              "message": "Local model created the execution plan.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "steps": [
+                  "Use median_numbers capability to calculate the median of the numbers [9, 1, 4, 7]",
+                  "Observe if the median_numbers capability returns the correct median value of the provided numbers"
+                ],
+                "success_check": "The median_numbers capability will successfully calculate the median of the numbers [9, 1, 4, 7] and return the correct result"
+              }
+            },
+            {
+              "sequence": 5,
+              "kind": "model_request",
+              "message": "Requesting the next native tool decision from local Ollama.",
+              "iteration": 1,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": null
+            },
+            {
+              "sequence": 6,
+              "kind": "current_step",
+              "message": "Model selected median_numbers.",
+              "iteration": 1,
+              "tool": "median_numbers",
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "step": 1,
+                "action": "tool"
+              }
+            },
+            {
+              "sequence": 7,
+              "kind": "tool_requested",
+              "message": "Agent selected a tool with actual inputs.",
+              "iteration": 1,
+              "tool": "median_numbers",
+              "call_id": null,
+              "arguments": {
+                "numbers": [
+                  9,
+                  1,
+                  4,
+                  7
+                ]
+              },
+              "result": null
+            },
+            {
+              "sequence": 8,
+              "kind": "tool_failed",
+              "message": "Actual registry/tool failure observed.",
+              "iteration": 1,
+              "tool": "median_numbers",
+              "call_id": null,
+              "arguments": {
+                "numbers": [
+                  9,
+                  1,
+                  4,
+                  7
+                ]
+              },
+              "result": {
+                "ok": false,
+                "error": {
+                  "code": "unknown_tool",
+                  "message": "Tool 'median_numbers' is not approved. Use only the supplied tool definitions."
+                },
+                "category": "missing_capability"
+              }
+            },
+            {
+              "sequence": 9,
+              "kind": "capability_gap",
+              "message": "Registry rejected a missing capability; independent build contract is available.",
+              "iteration": null,
+              "tool": "median_numbers",
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "gap_id": "4e5691c7-bb61-4ff6-aab5-bbfcbf664d20",
+                "contract": "median-numbers-v1"
+              }
+            },
+            {
+              "sequence": 10,
+              "kind": "reflection",
+              "message": "Recover by generating and testing the missing capability, then retry against the changed registry.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "category": "missing_capability",
+                "recovery": 1
+              }
+            },
+            {
+              "sequence": 11,
+              "kind": "candidate_generation",
+              "message": "Local Ollama is generating candidate source.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "candidate_id": "eec75840-377f-4206-8703-7e1c864ed274",
+                "attempt": 1,
+                "contract": "median-numbers-v1",
+                "independent_case_count": 17,
+                "execution": {
+                  "available": true,
+                  "enabled": true,
+                  "policy": "local-demo-subprocess-v1",
+                  "image": "host-python:4ef82ee90155ad4c55969ccd2f93ae2abb199ae06b33510c6459eb7842af1266",
+                  "timeout_seconds": 5.0,
+                  "secure_sandbox": false,
+                  "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "kind": "candidate_persisted",
+              "message": "Immutable model source and contract persisted.",
+              "iteration": null,
+              "tool": "candidate_median_eec7584037",
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "candidate_id": "eec75840-377f-4206-8703-7e1c864ed274",
+                "version_id": "141b607e-e031-45a5-9f73-7a1a3219faf6",
+                "version": 2,
+                "source_hash": "c4e220032954918fdb00f5cde0b4086f4f49027128a7da3d045dbf7ccafb0059"
+              }
+            },
+            {
+              "sequence": 13,
+              "kind": "candidate_tests",
+              "message": "Candidate validation completed in local DEMO subprocess (not a secure sandbox).",
+              "iteration": null,
+              "tool": "candidate_median_eec7584037",
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "id": "ccc17c8d-3170-4441-9dc1-0fc35c8c2169",
+                "version_id": "141b607e-e031-45a5-9f73-7a1a3219faf6",
+                "state": "passed",
+                "source_hash": "c4e220032954918fdb00f5cde0b4086f4f49027128a7da3d045dbf7ccafb0059",
+                "content_hash": "b8591720daffe555159c3e4b61dd2792288a06a57370a3673b18f31622661c0f",
+                "suite_hash": "40b917c795521ed7fea1d8f4c0b4074ded73b20f8f934089f3d89469db03e02b",
+                "payload": {
+                  "static_findings": [],
+                  "cases": [
+                    {
+                      "label": "empty list",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "too many",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "out of range",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "boolean",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "numeric string",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "floating operand",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "missing list",
+                      "category": "malformed",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "not an object",
+                      "category": "malformed",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "injected command",
+                      "category": "security",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "injected path",
+                      "category": "security",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "unsorted odd",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 4.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "unsorted even",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 5.5
+                        }
+                      }
+                    },
+                    {
+                      "label": "negative values",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": -5.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "duplicates",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 2.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "singleton",
+                      "category": "boundary",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 0.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "range endpoints",
+                      "category": "boundary",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 0.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "maximum length",
+                      "category": "boundary",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "median": 9.5
+                        }
+                      }
+                    }
+                  ],
+                  "sandbox": {
+                    "available": true,
+                    "enabled": true,
+                    "policy": "local-demo-subprocess-v1",
+                    "image": "host-python:4ef82ee90155ad4c55969ccd2f93ae2abb199ae06b33510c6459eb7842af1266",
+                    "timeout_seconds": 5.0,
+                    "secure_sandbox": false,
+                    "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                  },
+                  "comparison": null,
+                  "limitations": [
+                    "Backend-defined independent demo oracle supplies expected outputs before source generation. Model tests are suggestions.",
+                    "Input rejection tests run at the trusted host boundary; candidate code never receives invalid inputs.",
+                    "Static checks do not prove isolation or correctness on unseen inputs.",
+                    "DEMO: host subprocess execution is not a secure sandbox; timeout and output limits do not isolate filesystem, network or memory."
+                  ],
+                  "execution": {
+                    "stdout": "{\"results\": [{\"ok\": true, \"value\": {\"median\": 4.0}}, {\"ok\": true, \"value\": {\"median\": 5.5}}, {\"ok\": true, \"value\": {\"median\": -5.0}}, {\"ok\": true, \"value\": {\"median\": 2.0}}, {\"ok\": true, \"value\": {\"median\": 0.0}}, {\"ok\": true, \"value\": {\"median\": 0.0}}, {\"ok\": true, \"value\": {\"median\": 9.5}}], \"candidate_stdout\": \"\", \"candidate_stderr\": \"\"}\r\n",
+                    "stderr": "",
+                    "exit_code": 0,
+                    "duration_ms": 166,
+                    "timeout": false,
+                    "output_limit": false,
+                    "policy": "local-demo-subprocess-v1",
+                    "image": "host-python:4ef82ee90155ad4c55969ccd2f93ae2abb199ae06b33510c6459eb7842af1266",
+                    "secure_sandbox": false,
+                    "results": [
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 4.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 5.5
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": -5.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 2.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 0.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 0.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "median": 9.5
+                        }
+                      }
+                    ],
+                    "child_pid": 12764
+                  }
+                },
+                "created_at": "2026-10-10T15:40:05.339102+00:00"
+              }
+            },
+            {
+              "sequence": 14,
+              "kind": "candidate_activated",
+              "message": "Tested candidate automatically activated under explicit DEMO policy.",
+              "iteration": null,
+              "tool": "candidate_median_eec7584037",
+              "call_id": null,
+              "arguments": null,
+              "result": {
+                "candidate_id": "eec75840-377f-4206-8703-7e1c864ed274",
+                "version_id": "141b607e-e031-45a5-9f73-7a1a3219faf6",
+                "source_hash": "c4e220032954918fdb00f5cde0b4086f4f49027128a7da3d045dbf7ccafb0059",
+                "actor": "automatic-demo-policy"
+              }
+            },
+            {
+              "sequence": 15,
+              "kind": "retry",
+              "message": "Registry changed after passed tests and activation; retry the original task inputs.",
+              "iteration": null,
+              "tool": "candidate_median_eec7584037",
+              "call_id": null,
+              "arguments": {
+                "numbers": [
+                  9,
+                  1,
+                  4,
+                  7
+                ]
+              },
+              "result": {
+                "recovery": 1
+              }
+            },
+            {
+              "sequence": 16,
+              "kind": "model_request",
+              "message": "Requesting the next native tool decision from local Ollama.",
+              "iteration": 2,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": null
+            },
+            {
+              "sequence": 17,
+              "kind": "failure",
+              "message": "Agent requested multiple simultaneous calls. This loop requires one observed result before selecting the next action.",
+              "iteration": null,
+              "tool": null,
+              "call_id": null,
+              "arguments": null,
+              "result": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "model_status": {
+    "status": "ready",
+    "ollama_reachable": true,
+    "model_available": true,
+    "model": "qwen2.5:3b",
+    "base_url": "http://localhost:11434",
+    "message": "qwen2.5:3b is installed and ready for local chat."
+  }
+}

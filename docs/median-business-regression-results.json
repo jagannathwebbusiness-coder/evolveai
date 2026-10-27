@@ -1,0 +1,1464 @@
+{
+  "model": "qwen2.5:3b",
+  "data_dir": "D:\\evolve ai\\data\\agentic-demo\\07ab08fe-26ec-40e6-9d45-6b2b33e536d5",
+  "real_ollama": true,
+  "secure_sandbox": false,
+  "tasks": [
+    {
+      "goal": "Find the median of [9, 1, 4, 7]. Use the median capability and verify the result.",
+      "http_status": 200,
+      "response": {
+        "model": "qwen2.5:3b",
+        "message": "The median is 5.5.",
+        "duration_ms": 93596,
+        "truncated": false,
+        "task_id": "33080dc9-57f4-4592-a664-0f19a86c9862",
+        "conversation_id": "7a0280b0-d7e6-4f76-93e6-8ea987946fc0",
+        "activity": [
+          {
+            "sequence": 1,
+            "kind": "processing_request",
+            "message": "Processing tool-enabled request.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 2,
+            "kind": "strategy_evidence",
+            "message": "Loaded measured successful tool strategies from saved tasks.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "strategies": [],
+              "model_weight_learning": false
+            }
+          },
+          {
+            "sequence": 3,
+            "kind": "tool_catalog_filtered",
+            "message": "Filtered tools by task relevance and actual data availability.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "offered": [
+                "median_numbers"
+              ],
+              "attachments": 0,
+              "requirements": [
+                {
+                  "capability": "median_numbers",
+                  "contract": "median-numbers-v1",
+                  "arguments_from_user": {
+                    "numbers": [
+                      9,
+                      1,
+                      4,
+                      7
+                    ]
+                  },
+                  "label": "median"
+                }
+              ]
+            }
+          },
+          {
+            "sequence": 4,
+            "kind": "model_request",
+            "message": "Requesting a structured decision from local Ollama.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "schema": "Plan",
+              "attempt": 1
+            }
+          },
+          {
+            "sequence": 5,
+            "kind": "plan_created",
+            "message": "Local model created the execution plan.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "steps": [
+                "Use the median_numbers tool with the provided numbers [9, 1, 4, 7]",
+                "Call the median_numbers tool with the numbers [9, 1, 4, 7]",
+                "Observe the output from the median_numbers tool"
+              ],
+              "success_check": "The median_numbers tool will return the median of the numbers [9, 1, 4, 7] and the result will be checked to ensure it is the correct median value."
+            }
+          },
+          {
+            "sequence": 6,
+            "kind": "model_request",
+            "message": "Requesting the next native tool decision from local Ollama.",
+            "iteration": 1,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 7,
+            "kind": "current_step",
+            "message": "Model selected median_numbers.",
+            "iteration": 1,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "step": 1,
+              "action": "tool"
+            }
+          },
+          {
+            "sequence": 8,
+            "kind": "tool_requested",
+            "message": "Agent requested an action with actual inputs.",
+            "iteration": 1,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": null
+          },
+          {
+            "sequence": 9,
+            "kind": "tool_failed",
+            "message": "Actual validation/registry/tool failure observed.",
+            "iteration": 1,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": {
+              "ok": false,
+              "error": {
+                "code": "unknown_tool",
+                "message": "Tool 'median_numbers' is not approved. Use only the supplied tool definitions.",
+                "details": {}
+              },
+              "category": "missing_capability"
+            }
+          },
+          {
+            "sequence": 10,
+            "kind": "capability_gap",
+            "message": "Registry rejected a missing capability; independent build contract is available.",
+            "iteration": null,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "gap_id": "d9330218-6397-465e-845b-4a6422b3f144",
+              "contract": "median-numbers-v1"
+            }
+          },
+          {
+            "sequence": 11,
+            "kind": "reflection",
+            "message": "Recover by generating, independently testing and activating the missing capability.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "category": "missing_capability",
+              "recovery": 1
+            }
+          },
+          {
+            "sequence": 12,
+            "kind": "candidate_generation",
+            "message": "Local Ollama is generating candidate source.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "candidate_id": "454e97e4-66ca-4b56-8cca-34c59cbde675",
+              "attempt": 1,
+              "contract": "median-numbers-v1",
+              "independent_case_count": 17,
+              "execution": {
+                "available": true,
+                "enabled": true,
+                "policy": "local-demo-subprocess-v1",
+                "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                "timeout_seconds": 5.0,
+                "secure_sandbox": false,
+                "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+              }
+            }
+          },
+          {
+            "sequence": 13,
+            "kind": "candidate_persisted",
+            "message": "Immutable model source and contract persisted.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "candidate_id": "454e97e4-66ca-4b56-8cca-34c59cbde675",
+              "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+              "version": 2,
+              "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921"
+            }
+          },
+          {
+            "sequence": 14,
+            "kind": "candidate_tests",
+            "message": "Candidate validation completed in local DEMO subprocess (not a secure sandbox).",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "id": "2b08c69f-4c23-4d9e-943f-3d6d23f5cbac",
+              "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+              "state": "passed",
+              "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921",
+              "content_hash": "b44c4510278902ca538993a970325f7056346d20f89459a237619eb197e966ea",
+              "suite_hash": "40b917c795521ed7fea1d8f4c0b4074ded73b20f8f934089f3d89469db03e02b",
+              "payload": {
+                "static_findings": [],
+                "cases": [
+                  {
+                    "label": "empty list",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "too many",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "out of range",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "boolean",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "numeric string",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "floating operand",
+                    "category": "invalid",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "missing list",
+                    "category": "malformed",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "not an object",
+                    "category": "malformed",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "injected command",
+                    "category": "security",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "injected path",
+                    "category": "security",
+                    "passed": true,
+                    "scope": "host_input_boundary"
+                  },
+                  {
+                    "label": "unsorted odd",
+                    "category": "valid",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 4.0
+                      }
+                    }
+                  },
+                  {
+                    "label": "unsorted even",
+                    "category": "valid",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 5.5
+                      }
+                    }
+                  },
+                  {
+                    "label": "negative values",
+                    "category": "valid",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": -5.0
+                      }
+                    }
+                  },
+                  {
+                    "label": "duplicates",
+                    "category": "valid",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 2.0
+                      }
+                    }
+                  },
+                  {
+                    "label": "singleton",
+                    "category": "boundary",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "label": "range endpoints",
+                    "category": "boundary",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "label": "maximum length",
+                    "category": "boundary",
+                    "passed": true,
+                    "scope": "sandbox_exact_output",
+                    "actual": {
+                      "ok": true,
+                      "value": {
+                        "median": 9.5
+                      }
+                    }
+                  }
+                ],
+                "sandbox": {
+                  "available": true,
+                  "enabled": true,
+                  "policy": "local-demo-subprocess-v1",
+                  "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                  "timeout_seconds": 5.0,
+                  "secure_sandbox": false,
+                  "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                },
+                "comparison": null,
+                "limitations": [
+                  "Backend-defined independent demo oracle supplies expected outputs before source generation. Model tests are suggestions.",
+                  "Input rejection tests run at the trusted host boundary; candidate code never receives invalid inputs.",
+                  "Static checks do not prove isolation or correctness on unseen inputs.",
+                  "DEMO: host subprocess execution is not a secure sandbox; timeout and output limits do not isolate filesystem, network or memory."
+                ],
+                "execution": {
+                  "stdout": "{\"results\": [{\"ok\": true, \"value\": {\"median\": 4.0}}, {\"ok\": true, \"value\": {\"median\": 5.5}}, {\"ok\": true, \"value\": {\"median\": -5.0}}, {\"ok\": true, \"value\": {\"median\": 2.0}}, {\"ok\": true, \"value\": {\"median\": 0.0}}, {\"ok\": true, \"value\": {\"median\": 0.0}}, {\"ok\": true, \"value\": {\"median\": 9.5}}], \"candidate_stdout\": \"\", \"candidate_stderr\": \"\"}\r\n",
+                  "stderr": "",
+                  "exit_code": 0,
+                  "duration_ms": 205,
+                  "timeout": false,
+                  "output_limit": false,
+                  "policy": "local-demo-subprocess-v1",
+                  "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                  "secure_sandbox": false,
+                  "results": [
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 4.0
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 5.5
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": -5.0
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 2.0
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 0.0
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 0.0
+                      }
+                    },
+                    {
+                      "ok": true,
+                      "value": {
+                        "median": 9.5
+                      }
+                    }
+                  ],
+                  "child_pid": 22624
+                }
+              },
+              "created_at": "2026-10-11T03:44:03.060701+00:00"
+            }
+          },
+          {
+            "sequence": 15,
+            "kind": "candidate_activated",
+            "message": "Tested candidate automatically activated under explicit DEMO policy.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "candidate_id": "454e97e4-66ca-4b56-8cca-34c59cbde675",
+              "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+              "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921",
+              "actor": "automatic-demo-policy"
+            }
+          },
+          {
+            "sequence": 16,
+            "kind": "retry",
+            "message": "Changed registry after passed tests; retry the original inputs.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": {
+              "recovery": 1
+            }
+          },
+          {
+            "sequence": 17,
+            "kind": "replan",
+            "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+            "iteration": 2,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": {
+              "decision_source": "backend_requirement_guard",
+              "missing": [
+                "median"
+              ]
+            }
+          },
+          {
+            "sequence": 18,
+            "kind": "current_step",
+            "message": "Execute the grounded unmet requirement after recovery.",
+            "iteration": 2,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "step": 2,
+              "action": "tool"
+            }
+          },
+          {
+            "sequence": 19,
+            "kind": "capability_resolved",
+            "message": "Resolved capability to an existing registered tool.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "capability": "median_numbers",
+              "selection_evidence": null
+            }
+          },
+          {
+            "sequence": 20,
+            "kind": "tool_requested",
+            "message": "Agent requested an action with actual inputs.",
+            "iteration": 2,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": null
+          },
+          {
+            "sequence": 21,
+            "kind": "tool_executed",
+            "message": "Registered tool executed successfully.",
+            "iteration": 2,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "median": 5.5
+              }
+            }
+          },
+          {
+            "sequence": 22,
+            "kind": "result_verified",
+            "message": "Actual executed output matches an independent business/numeric oracle.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "contract": "median-numbers-v1",
+              "label": "median",
+              "passed": true
+            }
+          },
+          {
+            "sequence": 23,
+            "kind": "recovery_succeeded",
+            "message": "A changed relevant action succeeded after observed failures.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 24,
+            "kind": "completion_check",
+            "message": "All required outputs for this single numeric goal independently verified.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "decision_source": "backend_independent_oracle",
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 25,
+            "kind": "goal_verified",
+            "message": "Executed outputs match independent contracts for the explicit task operands.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "passed": true,
+              "scope": "required_numeric_results",
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 26,
+            "kind": "strategy_saved",
+            "message": "Recorded measured execution evidence; no model weights changed.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "verified": true,
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 27,
+            "kind": "final_answer",
+            "message": "Task completed using actual registered-tool results.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          }
+        ]
+      }
+    },
+    {
+      "goal": "Find the median of [18, 2, 11, 6, 9]. Use the median capability and verify the result.",
+      "http_status": 200,
+      "response": {
+        "model": "qwen2.5:3b",
+        "message": "The median is 9.",
+        "duration_ms": 61079,
+        "truncated": false,
+        "task_id": "1b320e1b-11c7-4953-8eae-8bebe20d67c7",
+        "conversation_id": "7a0280b0-d7e6-4f76-93e6-8ea987946fc0",
+        "activity": [
+          {
+            "sequence": 1,
+            "kind": "processing_request",
+            "message": "Processing tool-enabled request.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 2,
+            "kind": "strategy_evidence",
+            "message": "Loaded measured successful tool strategies from saved tasks.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "strategies": [
+                {
+                  "tool": "candidate_median_454e97e466",
+                  "successes": 1,
+                  "failures": 0,
+                  "observed_success_rate": 1.0
+                },
+                {
+                  "tool": "median_numbers",
+                  "successes": 0,
+                  "failures": 1,
+                  "observed_success_rate": 0.0
+                }
+              ],
+              "model_weight_learning": false
+            }
+          },
+          {
+            "sequence": 3,
+            "kind": "tool_catalog_filtered",
+            "message": "Filtered tools by task relevance and actual data availability.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "offered": [
+                "candidate_median_454e97e466",
+                "median_numbers"
+              ],
+              "attachments": 0,
+              "requirements": [
+                {
+                  "capability": "median_numbers",
+                  "contract": "median-numbers-v1",
+                  "arguments_from_user": {
+                    "numbers": [
+                      18,
+                      2,
+                      11,
+                      6,
+                      9
+                    ]
+                  },
+                  "label": "median"
+                }
+              ]
+            }
+          },
+          {
+            "sequence": 4,
+            "kind": "model_request",
+            "message": "Requesting a structured decision from local Ollama.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "schema": "Plan",
+              "attempt": 1
+            }
+          },
+          {
+            "sequence": 5,
+            "kind": "plan_created",
+            "message": "Local model created the execution plan.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "steps": [
+                "Use the candidate_median_454e97e466 tool with the numbers [9, 1, 4, 7] to find the median.",
+                "Observe the output from the candidate_median_454e97e466 tool to verify the result."
+              ],
+              "success_check": "The median of the numbers [9, 1, 4, 7] will be verified using the candidate_median_454e97e466 tool and the expected median will be 5.0, which can be checked in the tool's output."
+            }
+          },
+          {
+            "sequence": 6,
+            "kind": "model_request",
+            "message": "Requesting the next native tool decision from local Ollama.",
+            "iteration": 1,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 7,
+            "kind": "current_step",
+            "message": "Model selected candidate_median_454e97e466.",
+            "iteration": 1,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "step": 1,
+              "action": "tool"
+            }
+          },
+          {
+            "sequence": 8,
+            "kind": "tool_requested",
+            "message": "Agent requested an action with actual inputs.",
+            "iteration": 1,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": null
+          },
+          {
+            "sequence": 9,
+            "kind": "tool_failed",
+            "message": "Actual validation/registry/tool failure observed.",
+            "iteration": 1,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                9,
+                1,
+                4,
+                7
+              ]
+            },
+            "result": {
+              "ok": false,
+              "error": {
+                "code": "ungrounded_arguments",
+                "message": "Generated tool operands must match a pending user-grounded requirement.",
+                "details": {}
+              },
+              "category": "selection_failure"
+            }
+          },
+          {
+            "sequence": 10,
+            "kind": "reflection",
+            "message": "Use actionable schema/data errors to revise the action and replan unmet requirements.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "category": "selection_failure",
+              "recovery": 1,
+              "missing": [
+                "median"
+              ]
+            }
+          },
+          {
+            "sequence": 11,
+            "kind": "replan",
+            "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+            "iteration": 2,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                18,
+                2,
+                11,
+                6,
+                9
+              ]
+            },
+            "result": {
+              "decision_source": "backend_requirement_guard",
+              "missing": [
+                "median"
+              ]
+            }
+          },
+          {
+            "sequence": 12,
+            "kind": "current_step",
+            "message": "Execute the grounded unmet requirement after recovery.",
+            "iteration": 2,
+            "tool": "median_numbers",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "step": 2,
+              "action": "tool"
+            }
+          },
+          {
+            "sequence": 13,
+            "kind": "capability_resolved",
+            "message": "Resolved capability to an existing registered tool.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "capability": "median_numbers",
+              "selection_evidence": {
+                "tool": "candidate_median_454e97e466",
+                "successes": 1,
+                "failures": 0,
+                "observed_success_rate": 1.0
+              }
+            }
+          },
+          {
+            "sequence": 14,
+            "kind": "tool_requested",
+            "message": "Agent requested an action with actual inputs.",
+            "iteration": 2,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                18,
+                2,
+                11,
+                6,
+                9
+              ]
+            },
+            "result": null
+          },
+          {
+            "sequence": 15,
+            "kind": "tool_executed",
+            "message": "Registered tool executed successfully.",
+            "iteration": 2,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": {
+              "numbers": [
+                18,
+                2,
+                11,
+                6,
+                9
+              ]
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "median": 9.0
+              }
+            }
+          },
+          {
+            "sequence": 16,
+            "kind": "result_verified",
+            "message": "Actual executed output matches an independent business/numeric oracle.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "contract": "median-numbers-v1",
+              "label": "median",
+              "passed": true
+            }
+          },
+          {
+            "sequence": 17,
+            "kind": "tool_reused",
+            "message": "Previously active generated tool executed in this task.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+              "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921"
+            }
+          },
+          {
+            "sequence": 18,
+            "kind": "recovery_succeeded",
+            "message": "A changed relevant action succeeded after observed failures.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          },
+          {
+            "sequence": 19,
+            "kind": "completion_check",
+            "message": "All required outputs for this single numeric goal independently verified.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "decision_source": "backend_independent_oracle",
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 20,
+            "kind": "goal_verified",
+            "message": "Executed outputs match independent contracts for the explicit task operands.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "passed": true,
+              "scope": "required_numeric_results",
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 21,
+            "kind": "strategy_saved",
+            "message": "Recorded measured execution evidence; no model weights changed.",
+            "iteration": null,
+            "tool": "candidate_median_454e97e466",
+            "call_id": null,
+            "arguments": null,
+            "result": {
+              "verified": true,
+              "contracts": [
+                "median-numbers-v1"
+              ]
+            }
+          },
+          {
+            "sequence": 22,
+            "kind": "final_answer",
+            "message": "Task completed using actual registered-tool results.",
+            "iteration": null,
+            "tool": null,
+            "call_id": null,
+            "arguments": null,
+            "result": null
+          }
+        ]
+      }
+    }
+  ],
+  "model_status": {
+    "status": "ready",
+    "ollama_reachable": true,
+    "model_available": true,
+    "model": "qwen2.5:3b",
+    "base_url": "http://localhost:11434",
+    "message": "qwen2.5:3b is installed and ready for local chat."
+  },
+  "improvement": {
+    "evaluations": [
+      {
+        "task_id": "1b320e1b-11c7-4953-8eae-8bebe20d67c7",
+        "rules_version": "deterministic-v1",
+        "task_type": "tools",
+        "requested_capability": "auto",
+        "status": "completed_recovered",
+        "outcome": "verified_success",
+        "tool_calls": 2,
+        "tools_executed": 1,
+        "validation_failures": 0,
+        "retry_count": 0,
+        "recovery_attempts": 1,
+        "generated_candidates": 0,
+        "activated_candidates": 0,
+        "reused_tools": 1,
+        "retry_of": null,
+        "error_category": null,
+        "duration_ms": 61079,
+        "final_answer_produced": true,
+        "verification": [
+          {
+            "rule": "median-numbers-v1",
+            "passed": true,
+            "scope": "grounded_numeric_result",
+            "event_sequence": 15
+          },
+          {
+            "rule": "required-contract-results-v2",
+            "passed": true,
+            "scope": "required_numeric_results_and_rendered_values; prose_not_verified"
+          }
+        ],
+        "feedback": null,
+        "event_references": [
+          {
+            "sequence": 1,
+            "kind": "processing_request",
+            "tool": null
+          },
+          {
+            "sequence": 2,
+            "kind": "strategy_evidence",
+            "tool": null
+          },
+          {
+            "sequence": 3,
+            "kind": "tool_catalog_filtered",
+            "tool": null
+          },
+          {
+            "sequence": 4,
+            "kind": "model_request",
+            "tool": null
+          },
+          {
+            "sequence": 5,
+            "kind": "plan_created",
+            "tool": null
+          },
+          {
+            "sequence": 6,
+            "kind": "model_request",
+            "tool": null
+          },
+          {
+            "sequence": 7,
+            "kind": "current_step",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 8,
+            "kind": "tool_requested",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 9,
+            "kind": "tool_failed",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 10,
+            "kind": "reflection",
+            "tool": null
+          },
+          {
+            "sequence": 11,
+            "kind": "replan",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 12,
+            "kind": "current_step",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 13,
+            "kind": "capability_resolved",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 14,
+            "kind": "tool_requested",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 15,
+            "kind": "tool_executed",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 16,
+            "kind": "result_verified",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 17,
+            "kind": "tool_reused",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 18,
+            "kind": "recovery_succeeded",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 19,
+            "kind": "completion_check",
+            "tool": null
+          },
+          {
+            "sequence": 20,
+            "kind": "goal_verified",
+            "tool": null
+          },
+          {
+            "sequence": 21,
+            "kind": "strategy_saved",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 22,
+            "kind": "final_answer",
+            "tool": null
+          }
+        ],
+        "created_at": "2026-10-11T03:44:03.857262+00:00"
+      },
+      {
+        "task_id": "33080dc9-57f4-4592-a664-0f19a86c9862",
+        "rules_version": "deterministic-v1",
+        "task_type": "tools",
+        "requested_capability": "auto",
+        "status": "completed_recovered",
+        "outcome": "verified_success",
+        "tool_calls": 2,
+        "tools_executed": 1,
+        "validation_failures": 0,
+        "retry_count": 0,
+        "recovery_attempts": 1,
+        "generated_candidates": 1,
+        "activated_candidates": 1,
+        "reused_tools": 0,
+        "retry_of": null,
+        "error_category": null,
+        "duration_ms": 93596,
+        "final_answer_produced": true,
+        "verification": [
+          {
+            "rule": "median-numbers-v1",
+            "passed": true,
+            "scope": "grounded_numeric_result",
+            "event_sequence": 21
+          },
+          {
+            "rule": "required-contract-results-v2",
+            "passed": true,
+            "scope": "required_numeric_results_and_rendered_values; prose_not_verified"
+          }
+        ],
+        "feedback": null,
+        "event_references": [
+          {
+            "sequence": 1,
+            "kind": "processing_request",
+            "tool": null
+          },
+          {
+            "sequence": 2,
+            "kind": "strategy_evidence",
+            "tool": null
+          },
+          {
+            "sequence": 3,
+            "kind": "tool_catalog_filtered",
+            "tool": null
+          },
+          {
+            "sequence": 4,
+            "kind": "model_request",
+            "tool": null
+          },
+          {
+            "sequence": 5,
+            "kind": "plan_created",
+            "tool": null
+          },
+          {
+            "sequence": 6,
+            "kind": "model_request",
+            "tool": null
+          },
+          {
+            "sequence": 7,
+            "kind": "current_step",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 8,
+            "kind": "tool_requested",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 9,
+            "kind": "tool_failed",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 10,
+            "kind": "capability_gap",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 11,
+            "kind": "reflection",
+            "tool": null
+          },
+          {
+            "sequence": 12,
+            "kind": "candidate_generation",
+            "tool": null
+          },
+          {
+            "sequence": 13,
+            "kind": "candidate_persisted",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 14,
+            "kind": "candidate_tests",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 15,
+            "kind": "candidate_activated",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 16,
+            "kind": "retry",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 17,
+            "kind": "replan",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 18,
+            "kind": "current_step",
+            "tool": "median_numbers"
+          },
+          {
+            "sequence": 19,
+            "kind": "capability_resolved",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 20,
+            "kind": "tool_requested",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 21,
+            "kind": "tool_executed",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 22,
+            "kind": "result_verified",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 23,
+            "kind": "recovery_succeeded",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 24,
+            "kind": "completion_check",
+            "tool": null
+          },
+          {
+            "sequence": 25,
+            "kind": "goal_verified",
+            "tool": null
+          },
+          {
+            "sequence": 26,
+            "kind": "strategy_saved",
+            "tool": "candidate_median_454e97e466"
+          },
+          {
+            "sequence": 27,
+            "kind": "final_answer",
+            "tool": null
+          }
+        ],
+        "created_at": "2026-10-11T03:42:30.103180+00:00"
+      }
+    ],
+    "gaps": [
+      {
+        "id": "d9330218-6397-465e-845b-4a6422b3f144",
+        "capability": "median_numbers",
+        "error_category": "unknown_tool",
+        "occurrences": 1,
+        "minimum_evidence": 1,
+        "status": "resolved_demo_gap",
+        "evidence": [
+          {
+            "task_id": "33080dc9-57f4-4592-a664-0f19a86c9862",
+            "category": "unknown_tool"
+          }
+        ],
+        "proposed_improvement": "Generate median_numbers against median-numbers-v1 independent oracle.",
+        "expected_benefit": "Resolve observed missing-tool failure; verify on this task and a separate reuse task.",
+        "risk": "high_untrusted_demo_host_code",
+        "resolved_tasks": 1
+      }
+    ],
+    "candidates": [
+      {
+        "id": "454e97e4-66ca-4b56-8cca-34c59cbde675",
+        "gap_id": "d9330218-6397-465e-845b-4a6422b3f144",
+        "created_at": "2026-10-11T03:43:45.906249+00:00",
+        "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+        "version": 2,
+        "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921",
+        "content_hash": "b44c4510278902ca538993a970325f7056346d20f89459a237619eb197e966ea",
+        "name": "candidate_median_454e97e466",
+        "status": "active",
+        "error": null
+      }
+    ],
+    "active": [
+      {
+        "name": "candidate_median_454e97e466",
+        "version_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+        "source_hash": "2318ac03c9962b8738ff13326548f61c6356b5adceb5003a42adfbba377d2921",
+        "version": 2
+      }
+    ],
+    "audit": [
+      {
+        "id": "4e19fbe8-1044-4549-9561-2cc6fccc1edf",
+        "name": "candidate_median_454e97e466",
+        "before_id": null,
+        "after_id": "d86ac6db-8b04-404b-90a4-0e3a073bd1ba",
+        "action": "activate",
+        "actor": "automatic-demo-policy",
+        "reason": "Explicit local demo task opt-in; independent contract and actual executable tests passed.",
+        "created_at": "2026-10-11T03:44:03.177393+00:00"
+      }
+    ],
+    "sandbox": {
+      "available": false,
+      "enabled": false,
+      "policy": "docker-desktop-linux-v1",
+      "image": null,
+      "reason": "Candidate execution is disabled. Review-only mode; no candidate code runs.",
+      "timeout_seconds": 5.0
+    },
+    "demo": {
+      "available": true,
+      "enabled": true,
+      "policy": "local-demo-subprocess-v1",
+      "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+      "timeout_seconds": 5.0,
+      "secure_sandbox": false,
+      "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+    },
+    "limitations": [
+      "Completion is not proof of correctness. Grounded business/median contract outputs and exact numeric calculator answers have independent checks; arbitrary prose remains unverified.",
+      "Legacy tasks have unknown requested capability/retry counts. Evaluation rules are deterministic-v1; user helpfulness feedback is not correctness verification.",
+      "No sensitive prompts, answers, file contents, arguments or preference text are included in this dashboard telemetry.",
+      "Lists are bounded to 200; source/task records remain in local SQLite. Explicit demo tasks can automatically approve tested median or eligible business candidates. No model-weight learning or deployment."
+    ]
+  },
+  "acceptance_passed": true
+}

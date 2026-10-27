@@ -1,0 +1,2735 @@
+{
+  "real_ollama": true,
+  "model": "qwen2.5:3b",
+  "secure_sandbox": false,
+  "data_dir": "D:\\evolve ai\\data\\business-demo\\5544702e-864a-4a6a-8e25-559740c90878",
+  "capabilities": [
+    {
+      "name": "business_break_even",
+      "contract": "business-break-even-v1",
+      "tasks": [
+        {
+          "goal": "Calculate break even using {\"fixed_cost\": 45000, \"unit_price\": 600, \"variable_cost\": 300}.",
+          "expected": {
+            "break_even_units": 150,
+            "break_even_revenue": 90000.0,
+            "contribution_per_unit": 300.0
+          },
+          "http_status": 200,
+          "response": {
+            "model": "qwen2.5:3b",
+            "message": "Verified tool results:\nbreak_even_units: 150\nbreak_even_revenue: 90000\ncontribution_per_unit: 300",
+            "duration_ms": 89813,
+            "truncated": false,
+            "task_id": "1764ffd4-7f38-4cba-b026-b1beee78efa9",
+            "conversation_id": "24da815e-a1d4-47d7-a367-fb87282e62cd",
+            "activity": [
+              {
+                "sequence": 1,
+                "kind": "processing_request",
+                "message": "Processing tool-enabled request.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 2,
+                "kind": "strategy_evidence",
+                "message": "Loaded measured successful tool strategies from saved tasks.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "strategies": [],
+                  "model_weight_learning": false
+                }
+              },
+              {
+                "sequence": 3,
+                "kind": "tool_catalog_filtered",
+                "message": "Filtered tools by task relevance and actual data availability.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "offered": [
+                    "business_break_even"
+                  ],
+                  "attachments": 0,
+                  "requirements": [
+                    {
+                      "capability": "business_break_even",
+                      "contract": "business-break-even-v1",
+                      "arguments_from_user": {
+                        "fixed_cost": 45000,
+                        "unit_price": 600,
+                        "variable_cost": 300
+                      },
+                      "label": "business_break_even"
+                    }
+                  ]
+                }
+              },
+              {
+                "sequence": 4,
+                "kind": "model_request",
+                "message": "Requesting a structured decision from local Ollama.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "schema": "Plan",
+                  "attempt": 1
+                }
+              },
+              {
+                "sequence": 5,
+                "kind": "plan_created",
+                "message": "Local model created the execution plan.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "steps": [
+                    "Use the business_break_even tool with the provided arguments to calculate the break even point.",
+                    "The tool will be called with the fixed_cost of 45000, unit_price of 600, and variable_cost of 300."
+                  ],
+                  "success_check": "The tool will output the break even point, which is the number of units that need to be sold to cover all costs."
+                }
+              },
+              {
+                "sequence": 6,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 1,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 7,
+                "kind": "current_step",
+                "message": "Model selected business_break_even.",
+                "iteration": 1,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 1,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 8,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 1,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": null
+              },
+              {
+                "sequence": 9,
+                "kind": "tool_failed",
+                "message": "Actual validation/registry/tool failure observed.",
+                "iteration": 1,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": {
+                  "ok": false,
+                  "error": {
+                    "code": "unknown_tool",
+                    "message": "Tool 'business_break_even' is not approved. Use only the supplied tool definitions.",
+                    "details": {}
+                  },
+                  "category": "missing_capability"
+                }
+              },
+              {
+                "sequence": 10,
+                "kind": "capability_gap",
+                "message": "Registry rejected a missing capability; independent build contract is available.",
+                "iteration": null,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "gap_id": "43d75cfd-ce45-4e62-8792-1a96b3d342ac",
+                  "contract": "business-break-even-v1"
+                }
+              },
+              {
+                "sequence": 11,
+                "kind": "reflection",
+                "message": "Recover by generating, independently testing and activating the missing capability.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "category": "missing_capability",
+                  "recovery": 1
+                }
+              },
+              {
+                "sequence": 12,
+                "kind": "candidate_generation",
+                "message": "Local Ollama is generating candidate source.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "candidate_id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+                  "attempt": 1,
+                  "contract": "business-break-even-v1",
+                  "independent_case_count": 14,
+                  "execution": {
+                    "available": true,
+                    "enabled": true,
+                    "policy": "local-demo-subprocess-v1",
+                    "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                    "timeout_seconds": 5.0,
+                    "secure_sandbox": false,
+                    "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                  }
+                }
+              },
+              {
+                "sequence": 13,
+                "kind": "candidate_persisted",
+                "message": "Immutable model source and contract persisted.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "candidate_id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+                  "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                  "version": 2,
+                  "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371"
+                }
+              },
+              {
+                "sequence": 14,
+                "kind": "candidate_tests",
+                "message": "Candidate validation completed in local DEMO subprocess (not a secure sandbox).",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "id": "e8536e9e-0599-4aa6-9c51-2ad2a49dee10",
+                  "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                  "state": "passed",
+                  "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+                  "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+                  "suite_hash": "39e24dd6d29fda2cd6e1737a5d692ac330c81eb4a7fcd0b393e15f8430dd76c8",
+                  "payload": {
+                    "static_findings": [],
+                    "cases": [
+                      {
+                        "label": "missing operand",
+                        "category": "malformed",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "non object",
+                        "category": "malformed",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "numeric string",
+                        "category": "invalid",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "boolean",
+                        "category": "invalid",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "out of range",
+                        "category": "invalid",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "injected command",
+                        "category": "security",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "injected path",
+                        "category": "security",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "no contribution",
+                        "category": "invalid",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "negative contribution",
+                        "category": "invalid",
+                        "passed": true,
+                        "scope": "host_input_boundary"
+                      },
+                      {
+                        "label": "independent 0",
+                        "category": "valid",
+                        "passed": true,
+                        "scope": "sandbox_exact_output",
+                        "actual": {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 150,
+                            "break_even_revenue": 90000.0,
+                            "contribution_per_unit": 300.0
+                          }
+                        }
+                      },
+                      {
+                        "label": "independent 1",
+                        "category": "valid",
+                        "passed": true,
+                        "scope": "sandbox_exact_output",
+                        "actual": {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 17,
+                            "break_even_revenue": 1530.0,
+                            "contribution_per_unit": 60.0
+                          }
+                        }
+                      },
+                      {
+                        "label": "independent 2",
+                        "category": "valid",
+                        "passed": true,
+                        "scope": "sandbox_exact_output",
+                        "actual": {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 10,
+                            "break_even_revenue": 35.0,
+                            "contribution_per_unit": 2.0
+                          }
+                        }
+                      },
+                      {
+                        "label": "independent 3",
+                        "category": "boundary",
+                        "passed": true,
+                        "scope": "sandbox_exact_output",
+                        "actual": {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 0,
+                            "break_even_revenue": 0.0,
+                            "contribution_per_unit": 90.0
+                          }
+                        }
+                      },
+                      {
+                        "label": "independent 4",
+                        "category": "boundary",
+                        "passed": true,
+                        "scope": "sandbox_exact_output",
+                        "actual": {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 1000000000,
+                            "break_even_revenue": 1000000000000000.0,
+                            "contribution_per_unit": 1.0
+                          }
+                        }
+                      }
+                    ],
+                    "sandbox": {
+                      "available": true,
+                      "enabled": true,
+                      "policy": "local-demo-subprocess-v1",
+                      "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                      "timeout_seconds": 5.0,
+                      "secure_sandbox": false,
+                      "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                    },
+                    "comparison": null,
+                    "limitations": [
+                      "Backend-defined independent demo oracle supplies expected outputs before source generation. Model tests are suggestions.",
+                      "Input rejection tests run at the trusted host boundary; candidate code never receives invalid inputs.",
+                      "Static checks do not prove isolation or correctness on unseen inputs.",
+                      "DEMO: host subprocess execution is not a secure sandbox; timeout and output limits do not isolate filesystem, network or memory."
+                    ],
+                    "execution": {
+                      "stdout": "{\"results\": [{\"ok\": true, \"value\": {\"break_even_units\": 150, \"break_even_revenue\": 90000.0, \"contribution_per_unit\": 300.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 17, \"break_even_revenue\": 1530.0, \"contribution_per_unit\": 60.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 10, \"break_even_revenue\": 35.0, \"contribution_per_unit\": 2.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 0, \"break_even_revenue\": 0.0, \"contribution_per_unit\": 90.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 1000000000, \"break_even_revenue\": 1000000000000000.0, \"contribution_per_unit\": 1.0}}], \"candidate_stdout\": \"\", \"candidate_stderr\": \"\"}\r\n",
+                      "stderr": "",
+                      "exit_code": 0,
+                      "duration_ms": 138,
+                      "timeout": false,
+                      "output_limit": false,
+                      "policy": "local-demo-subprocess-v1",
+                      "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                      "secure_sandbox": false,
+                      "results": [
+                        {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 150,
+                            "break_even_revenue": 90000.0,
+                            "contribution_per_unit": 300.0
+                          }
+                        },
+                        {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 17,
+                            "break_even_revenue": 1530.0,
+                            "contribution_per_unit": 60.0
+                          }
+                        },
+                        {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 10,
+                            "break_even_revenue": 35.0,
+                            "contribution_per_unit": 2.0
+                          }
+                        },
+                        {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 0,
+                            "break_even_revenue": 0.0,
+                            "contribution_per_unit": 90.0
+                          }
+                        },
+                        {
+                          "ok": true,
+                          "value": {
+                            "break_even_units": 1000000000,
+                            "break_even_revenue": 1000000000000000.0,
+                            "contribution_per_unit": 1.0
+                          }
+                        }
+                      ],
+                      "child_pid": 17716
+                    }
+                  },
+                  "created_at": "2026-10-11T02:55:53.529933+00:00"
+                }
+              },
+              {
+                "sequence": 15,
+                "kind": "candidate_activated",
+                "message": "Tested candidate automatically activated under explicit DEMO policy.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "candidate_id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+                  "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                  "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+                  "actor": "automatic-demo-policy"
+                }
+              },
+              {
+                "sequence": 16,
+                "kind": "retry",
+                "message": "Changed registry after passed tests; retry the original inputs.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": {
+                  "recovery": 1
+                }
+              },
+              {
+                "sequence": 17,
+                "kind": "replan",
+                "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+                "iteration": 2,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": {
+                  "decision_source": "backend_requirement_guard",
+                  "missing": [
+                    "business_break_even"
+                  ]
+                }
+              },
+              {
+                "sequence": 18,
+                "kind": "current_step",
+                "message": "Execute the grounded unmet requirement after recovery.",
+                "iteration": 2,
+                "tool": "business_break_even",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 2,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 19,
+                "kind": "capability_resolved",
+                "message": "Resolved capability to an existing registered tool.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "capability": "business_break_even",
+                  "selection_evidence": null
+                }
+              },
+              {
+                "sequence": 20,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 2,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": null
+              },
+              {
+                "sequence": 21,
+                "kind": "tool_executed",
+                "message": "Registered tool executed successfully.",
+                "iteration": 2,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 45000,
+                  "unit_price": 600,
+                  "variable_cost": 300
+                },
+                "result": {
+                  "ok": true,
+                  "data": {
+                    "break_even_units": 150,
+                    "break_even_revenue": 90000.0,
+                    "contribution_per_unit": 300.0
+                  }
+                }
+              },
+              {
+                "sequence": 22,
+                "kind": "result_verified",
+                "message": "Actual executed output matches an independent business/numeric oracle.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "contract": "business-break-even-v1",
+                  "label": "business_break_even",
+                  "passed": true
+                }
+              },
+              {
+                "sequence": 23,
+                "kind": "recovery_succeeded",
+                "message": "A changed relevant action succeeded after observed failures.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 24,
+                "kind": "completion_check",
+                "message": "All required outputs for this single numeric goal independently verified.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "decision_source": "backend_independent_oracle",
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 25,
+                "kind": "goal_verified",
+                "message": "Executed outputs match independent contracts for the explicit task operands.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "passed": true,
+                  "scope": "required_numeric_results",
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 26,
+                "kind": "strategy_saved",
+                "message": "Recorded measured execution evidence; no model weights changed.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "verified": true,
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 27,
+                "kind": "final_answer",
+                "message": "Task completed using actual registered-tool results.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              }
+            ]
+          },
+          "fresh_app_instance": true
+        },
+        {
+          "goal": "Calculate break even using {\"fixed_cost\": 1000, \"unit_price\": 90, \"variable_cost\": 30}.",
+          "expected": {
+            "break_even_units": 17,
+            "break_even_revenue": 1530.0,
+            "contribution_per_unit": 60.0
+          },
+          "http_status": 200,
+          "response": {
+            "model": "qwen2.5:3b",
+            "message": "Verified tool results:\nbreak_even_units: 17\nbreak_even_revenue: 1530\ncontribution_per_unit: 60",
+            "duration_ms": 75407,
+            "truncated": false,
+            "task_id": "145fcd57-6c96-46f4-b078-654845efe49f",
+            "conversation_id": "24da815e-a1d4-47d7-a367-fb87282e62cd",
+            "activity": [
+              {
+                "sequence": 1,
+                "kind": "processing_request",
+                "message": "Processing tool-enabled request.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 2,
+                "kind": "strategy_evidence",
+                "message": "Loaded measured successful tool strategies from saved tasks.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "strategies": [
+                    {
+                      "tool": "candidate_break_even_6f0fbed44a",
+                      "successes": 1,
+                      "failures": 0,
+                      "observed_success_rate": 1.0
+                    },
+                    {
+                      "tool": "business_break_even",
+                      "successes": 0,
+                      "failures": 1,
+                      "observed_success_rate": 0.0
+                    }
+                  ],
+                  "model_weight_learning": false
+                }
+              },
+              {
+                "sequence": 3,
+                "kind": "tool_catalog_filtered",
+                "message": "Filtered tools by task relevance and actual data availability.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "offered": [
+                    "candidate_break_even_6f0fbed44a",
+                    "business_break_even"
+                  ],
+                  "attachments": 0,
+                  "requirements": [
+                    {
+                      "capability": "business_break_even",
+                      "contract": "business-break-even-v1",
+                      "arguments_from_user": {
+                        "fixed_cost": 1000,
+                        "unit_price": 90,
+                        "variable_cost": 30
+                      },
+                      "label": "business_break_even"
+                    }
+                  ]
+                }
+              },
+              {
+                "sequence": 4,
+                "kind": "model_request",
+                "message": "Requesting a structured decision from local Ollama.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "schema": "Plan",
+                  "attempt": 1
+                }
+              },
+              {
+                "sequence": 5,
+                "kind": "plan_created",
+                "message": "Local model created the execution plan.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "steps": [
+                    "Use the candidate_break_even_6f0fbed44a tool with the provided fixed cost, unit price, and variable cost to calculate the break even.",
+                    "Observe the tool output for the break even units, break even revenue, and contribution per unit.",
+                    "Verify the correctness of the tool output by checking if the break even units, break even revenue, and contribution per unit are calculated correctly based on the given fixed cost, unit price, and variable cost."
+                  ],
+                  "success_check": "The tool will output the break even units, break even revenue, and contribution per unit, and the steps should be verified to ensure the correctness of the calculations."
+                }
+              },
+              {
+                "sequence": 6,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 1,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 7,
+                "kind": "current_step",
+                "message": "Model selected candidate_break_even_6f0fbed44a.",
+                "iteration": 1,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 1,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 8,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 1,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 1000,
+                  "unit_price": 90,
+                  "variable_cost": 30
+                },
+                "result": null
+              },
+              {
+                "sequence": 9,
+                "kind": "tool_executed",
+                "message": "Registered tool executed successfully.",
+                "iteration": 1,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "fixed_cost": 1000,
+                  "unit_price": 90,
+                  "variable_cost": 30
+                },
+                "result": {
+                  "ok": true,
+                  "data": {
+                    "break_even_units": 17,
+                    "break_even_revenue": 1530.0,
+                    "contribution_per_unit": 60.0
+                  }
+                }
+              },
+              {
+                "sequence": 10,
+                "kind": "result_verified",
+                "message": "Actual executed output matches an independent business/numeric oracle.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "contract": "business-break-even-v1",
+                  "label": "business_break_even",
+                  "passed": true
+                }
+              },
+              {
+                "sequence": 11,
+                "kind": "tool_reused",
+                "message": "Previously active generated tool executed in this task.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                  "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371"
+                }
+              },
+              {
+                "sequence": 12,
+                "kind": "completion_check",
+                "message": "All required outputs for this single numeric goal independently verified.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "decision_source": "backend_independent_oracle",
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 13,
+                "kind": "goal_verified",
+                "message": "Executed outputs match independent contracts for the explicit task operands.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "passed": true,
+                  "scope": "required_numeric_results",
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 14,
+                "kind": "strategy_saved",
+                "message": "Recorded measured execution evidence; no model weights changed.",
+                "iteration": null,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "verified": true,
+                  "contracts": [
+                    "business-break-even-v1"
+                  ]
+                }
+              },
+              {
+                "sequence": 15,
+                "kind": "final_answer",
+                "message": "Task completed using actual registered-tool results.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              }
+            ]
+          },
+          "fresh_app_instance": true
+        }
+      ],
+      "model_status": {
+        "status": "ready",
+        "ollama_reachable": true,
+        "model_available": true,
+        "model": "qwen2.5:3b",
+        "base_url": "http://localhost:11434",
+        "message": "qwen2.5:3b is installed and ready for local chat."
+      },
+      "candidate": {
+        "id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+        "gap_id": "43d75cfd-ce45-4e62-8792-1a96b3d342ac",
+        "created_at": "2026-10-11T02:55:23.898545+00:00",
+        "versions": [
+          {
+            "id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+            "candidate_id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+            "version": 2,
+            "manifest": {
+              "name": "candidate_break_even_6f0fbed44a",
+              "description": "Whole-unit break-even and revenue; requires positive contribution. DEMO: unsecured host subprocess.",
+              "demo_contract": "business-break-even-v1",
+              "test_provenance": "backend_independent_demo",
+              "input_schema": {
+                "type": "object",
+                "properties": {
+                  "fixed_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1000000000.0
+                  },
+                  "unit_price": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1000000000.0
+                  },
+                  "variable_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1000000000.0
+                  }
+                },
+                "required": [
+                  "fixed_cost",
+                  "unit_price",
+                  "variable_cost"
+                ],
+                "additionalProperties": false
+              },
+              "output_schema": {
+                "type": "object",
+                "properties": {
+                  "break_even_units": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "break_even_revenue": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1e+20
+                  },
+                  "contribution_per_unit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1000000000.0
+                  }
+                },
+                "required": [
+                  "break_even_units",
+                  "break_even_revenue",
+                  "contribution_per_unit"
+                ],
+                "additionalProperties": false
+              },
+              "dependencies": [],
+              "permissions": [
+                "pure_json"
+              ],
+              "replaces": null,
+              "generated_tests": [
+                {
+                  "label": "independent 0",
+                  "category": "valid",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 600,
+                    "variable_cost": 300
+                  },
+                  "expected": {
+                    "break_even_units": 150,
+                    "break_even_revenue": 90000.0,
+                    "contribution_per_unit": 300.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "independent 1",
+                  "category": "valid",
+                  "input": {
+                    "fixed_cost": 1000,
+                    "unit_price": 90,
+                    "variable_cost": 30
+                  },
+                  "expected": {
+                    "break_even_units": 17,
+                    "break_even_revenue": 1530.0,
+                    "contribution_per_unit": 60.0
+                  },
+                  "reject": false
+                }
+              ]
+            },
+            "source": "def run(arguments):\n  unit_price = arguments['unit_price']\n  fixed_cost = arguments['fixed_cost']\n  variable_cost = arguments['variable_cost']\n  c = unit_price - variable_cost\n  units = int(fixed_cost / c)\n  if units * c < fixed_cost:\n    units += 1\n  return {\n    'break_even_units': units,\n    'break_even_revenue': float(units * unit_price),\n    'contribution_per_unit': float(c)\n  }",
+            "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+            "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+            "created_at": "2026-10-11T02:55:53.262915+00:00",
+            "status": "active",
+            "error": null,
+            "runs": [
+              {
+                "id": "e8536e9e-0599-4aa6-9c51-2ad2a49dee10",
+                "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                "state": "passed",
+                "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+                "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+                "suite_hash": "39e24dd6d29fda2cd6e1737a5d692ac330c81eb4a7fcd0b393e15f8430dd76c8",
+                "payload": {
+                  "static_findings": [],
+                  "cases": [
+                    {
+                      "label": "missing operand",
+                      "category": "malformed",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "non object",
+                      "category": "malformed",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "numeric string",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "boolean",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "out of range",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "injected command",
+                      "category": "security",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "injected path",
+                      "category": "security",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "no contribution",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "negative contribution",
+                      "category": "invalid",
+                      "passed": true,
+                      "scope": "host_input_boundary"
+                    },
+                    {
+                      "label": "independent 0",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 150,
+                          "break_even_revenue": 90000.0,
+                          "contribution_per_unit": 300.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "independent 1",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 17,
+                          "break_even_revenue": 1530.0,
+                          "contribution_per_unit": 60.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "independent 2",
+                      "category": "valid",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 10,
+                          "break_even_revenue": 35.0,
+                          "contribution_per_unit": 2.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "independent 3",
+                      "category": "boundary",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 0,
+                          "break_even_revenue": 0.0,
+                          "contribution_per_unit": 90.0
+                        }
+                      }
+                    },
+                    {
+                      "label": "independent 4",
+                      "category": "boundary",
+                      "passed": true,
+                      "scope": "sandbox_exact_output",
+                      "actual": {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 1000000000,
+                          "break_even_revenue": 1000000000000000.0,
+                          "contribution_per_unit": 1.0
+                        }
+                      }
+                    }
+                  ],
+                  "sandbox": {
+                    "available": true,
+                    "enabled": true,
+                    "policy": "local-demo-subprocess-v1",
+                    "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                    "timeout_seconds": 5.0,
+                    "secure_sandbox": false,
+                    "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+                  },
+                  "comparison": null,
+                  "limitations": [
+                    "Backend-defined independent demo oracle supplies expected outputs before source generation. Model tests are suggestions.",
+                    "Input rejection tests run at the trusted host boundary; candidate code never receives invalid inputs.",
+                    "Static checks do not prove isolation or correctness on unseen inputs.",
+                    "DEMO: host subprocess execution is not a secure sandbox; timeout and output limits do not isolate filesystem, network or memory."
+                  ],
+                  "execution": {
+                    "stdout": "{\"results\": [{\"ok\": true, \"value\": {\"break_even_units\": 150, \"break_even_revenue\": 90000.0, \"contribution_per_unit\": 300.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 17, \"break_even_revenue\": 1530.0, \"contribution_per_unit\": 60.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 10, \"break_even_revenue\": 35.0, \"contribution_per_unit\": 2.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 0, \"break_even_revenue\": 0.0, \"contribution_per_unit\": 90.0}}, {\"ok\": true, \"value\": {\"break_even_units\": 1000000000, \"break_even_revenue\": 1000000000000000.0, \"contribution_per_unit\": 1.0}}], \"candidate_stdout\": \"\", \"candidate_stderr\": \"\"}\r\n",
+                    "stderr": "",
+                    "exit_code": 0,
+                    "duration_ms": 138,
+                    "timeout": false,
+                    "output_limit": false,
+                    "policy": "local-demo-subprocess-v1",
+                    "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+                    "secure_sandbox": false,
+                    "results": [
+                      {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 150,
+                          "break_even_revenue": 90000.0,
+                          "contribution_per_unit": 300.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 17,
+                          "break_even_revenue": 1530.0,
+                          "contribution_per_unit": 60.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 10,
+                          "break_even_revenue": 35.0,
+                          "contribution_per_unit": 2.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 0,
+                          "break_even_revenue": 0.0,
+                          "contribution_per_unit": 90.0
+                        }
+                      },
+                      {
+                        "ok": true,
+                        "value": {
+                          "break_even_units": 1000000000,
+                          "break_even_revenue": 1000000000000000.0,
+                          "contribution_per_unit": 1.0
+                        }
+                      }
+                    ],
+                    "child_pid": 17716
+                  }
+                },
+                "created_at": "2026-10-11T02:55:53.529933+00:00"
+              }
+            ],
+            "decisions": [
+              {
+                "id": "12713e0f-2e20-4493-9d8b-f288bc0d1ecf",
+                "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+                "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+                "action": "activate",
+                "reason": "Explicit local demo task opt-in; independent contract and actual executable tests passed.",
+                "actor": "automatic-demo-policy",
+                "created_at": "2026-10-11T02:55:53.612657+00:00"
+              },
+              {
+                "id": "22225fe8-33fe-4dc2-bdf5-7111c6daa9eb",
+                "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+                "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+                "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+                "action": "approve",
+                "reason": "Explicit local demo task opt-in; independent contract and actual executable tests passed.",
+                "actor": "automatic-demo-policy",
+                "created_at": "2026-10-11T02:55:53.587706+00:00"
+              }
+            ],
+            "contract": {
+              "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+              "cases": [
+                {
+                  "label": "independent 0",
+                  "category": "valid",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 600,
+                    "variable_cost": 300
+                  },
+                  "expected": {
+                    "break_even_units": 150,
+                    "break_even_revenue": 90000.0,
+                    "contribution_per_unit": 300.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "independent 1",
+                  "category": "valid",
+                  "input": {
+                    "fixed_cost": 1000,
+                    "unit_price": 90,
+                    "variable_cost": 30
+                  },
+                  "expected": {
+                    "break_even_units": 17,
+                    "break_even_revenue": 1530.0,
+                    "contribution_per_unit": 60.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "independent 2",
+                  "category": "valid",
+                  "input": {
+                    "fixed_cost": 20,
+                    "unit_price": 3.5,
+                    "variable_cost": 1.5
+                  },
+                  "expected": {
+                    "break_even_units": 10,
+                    "break_even_revenue": 35.0,
+                    "contribution_per_unit": 2.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "independent 3",
+                  "category": "boundary",
+                  "input": {
+                    "fixed_cost": 0,
+                    "unit_price": 100,
+                    "variable_cost": 10
+                  },
+                  "expected": {
+                    "break_even_units": 0,
+                    "break_even_revenue": 0.0,
+                    "contribution_per_unit": 90.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "independent 4",
+                  "category": "boundary",
+                  "input": {
+                    "fixed_cost": 1000000000.0,
+                    "unit_price": 1000000,
+                    "variable_cost": 999999
+                  },
+                  "expected": {
+                    "break_even_units": 1000000000,
+                    "break_even_revenue": 1000000000000000.0,
+                    "contribution_per_unit": 1.0
+                  },
+                  "reject": false
+                },
+                {
+                  "label": "missing operand",
+                  "category": "malformed",
+                  "input": {},
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "non object",
+                  "category": "malformed",
+                  "input": null,
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "numeric string",
+                  "category": "invalid",
+                  "input": {
+                    "fixed_cost": "10",
+                    "unit_price": 600,
+                    "variable_cost": 300
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "boolean",
+                  "category": "invalid",
+                  "input": {
+                    "fixed_cost": true,
+                    "unit_price": 600,
+                    "variable_cost": 300
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "out of range",
+                  "category": "invalid",
+                  "input": {
+                    "fixed_cost": 1000000000000000.0,
+                    "unit_price": 600,
+                    "variable_cost": 300
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "injected command",
+                  "category": "security",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 600,
+                    "variable_cost": 300,
+                    "command": "whoami"
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "injected path",
+                  "category": "security",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 600,
+                    "variable_cost": 300,
+                    "path": "../../.env"
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "no contribution",
+                  "category": "invalid",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 300,
+                    "variable_cost": 300
+                  },
+                  "expected": null,
+                  "reject": true
+                },
+                {
+                  "label": "negative contribution",
+                  "category": "invalid",
+                  "input": {
+                    "fixed_cost": 45000,
+                    "unit_price": 0,
+                    "variable_cost": 300
+                  },
+                  "expected": null,
+                  "reject": true
+                }
+              ],
+              "suite_hash": "39e24dd6d29fda2cd6e1737a5d692ac330c81eb4a7fcd0b393e15f8430dd76c8",
+              "actor": "demo-independent-oracle-v1",
+              "created_at": "2026-10-11T02:55:53.303496+00:00"
+            }
+          },
+          {
+            "id": "af43e55e-947e-4d1c-98ed-47256e0bca21",
+            "candidate_id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+            "version": 1,
+            "manifest": null,
+            "source": "",
+            "source_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "content_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            "created_at": "2026-10-11T02:55:23.898545+00:00",
+            "status": "superseded",
+            "error": null,
+            "runs": [],
+            "decisions": [],
+            "contract": null
+          }
+        ]
+      },
+      "improvement": {
+        "evaluations": [
+          {
+            "task_id": "145fcd57-6c96-46f4-b078-654845efe49f",
+            "rules_version": "deterministic-v1",
+            "task_type": "tools",
+            "requested_capability": "auto",
+            "status": "completed",
+            "outcome": "verified_success",
+            "tool_calls": 1,
+            "tools_executed": 1,
+            "validation_failures": 0,
+            "retry_count": 0,
+            "recovery_attempts": 0,
+            "generated_candidates": 0,
+            "activated_candidates": 0,
+            "reused_tools": 1,
+            "retry_of": null,
+            "error_category": null,
+            "duration_ms": 75407,
+            "final_answer_produced": true,
+            "verification": [
+              {
+                "rule": "business-break-even-v1",
+                "passed": true,
+                "scope": "grounded_numeric_result",
+                "event_sequence": 9
+              },
+              {
+                "rule": "required-contract-results-v2",
+                "passed": true,
+                "scope": "required_numeric_results_and_rendered_values; prose_not_verified"
+              }
+            ],
+            "feedback": null,
+            "event_references": [
+              {
+                "sequence": 1,
+                "kind": "processing_request",
+                "tool": null
+              },
+              {
+                "sequence": 2,
+                "kind": "strategy_evidence",
+                "tool": null
+              },
+              {
+                "sequence": 3,
+                "kind": "tool_catalog_filtered",
+                "tool": null
+              },
+              {
+                "sequence": 4,
+                "kind": "model_request",
+                "tool": null
+              },
+              {
+                "sequence": 5,
+                "kind": "plan_created",
+                "tool": null
+              },
+              {
+                "sequence": 6,
+                "kind": "model_request",
+                "tool": null
+              },
+              {
+                "sequence": 7,
+                "kind": "current_step",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 8,
+                "kind": "tool_requested",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 9,
+                "kind": "tool_executed",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 10,
+                "kind": "result_verified",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 11,
+                "kind": "tool_reused",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 12,
+                "kind": "completion_check",
+                "tool": null
+              },
+              {
+                "sequence": 13,
+                "kind": "goal_verified",
+                "tool": null
+              },
+              {
+                "sequence": 14,
+                "kind": "strategy_saved",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 15,
+                "kind": "final_answer",
+                "tool": null
+              }
+            ],
+            "created_at": "2026-10-11T02:55:55.565757+00:00"
+          },
+          {
+            "task_id": "1764ffd4-7f38-4cba-b026-b1beee78efa9",
+            "rules_version": "deterministic-v1",
+            "task_type": "tools",
+            "requested_capability": "auto",
+            "status": "completed_recovered",
+            "outcome": "verified_success",
+            "tool_calls": 2,
+            "tools_executed": 1,
+            "validation_failures": 0,
+            "retry_count": 0,
+            "recovery_attempts": 1,
+            "generated_candidates": 1,
+            "activated_candidates": 1,
+            "reused_tools": 0,
+            "retry_of": null,
+            "error_category": null,
+            "duration_ms": 89813,
+            "final_answer_produced": true,
+            "verification": [
+              {
+                "rule": "business-break-even-v1",
+                "passed": true,
+                "scope": "grounded_numeric_result",
+                "event_sequence": 21
+              },
+              {
+                "rule": "required-contract-results-v2",
+                "passed": true,
+                "scope": "required_numeric_results_and_rendered_values; prose_not_verified"
+              }
+            ],
+            "feedback": null,
+            "event_references": [
+              {
+                "sequence": 1,
+                "kind": "processing_request",
+                "tool": null
+              },
+              {
+                "sequence": 2,
+                "kind": "strategy_evidence",
+                "tool": null
+              },
+              {
+                "sequence": 3,
+                "kind": "tool_catalog_filtered",
+                "tool": null
+              },
+              {
+                "sequence": 4,
+                "kind": "model_request",
+                "tool": null
+              },
+              {
+                "sequence": 5,
+                "kind": "plan_created",
+                "tool": null
+              },
+              {
+                "sequence": 6,
+                "kind": "model_request",
+                "tool": null
+              },
+              {
+                "sequence": 7,
+                "kind": "current_step",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 8,
+                "kind": "tool_requested",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 9,
+                "kind": "tool_failed",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 10,
+                "kind": "capability_gap",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 11,
+                "kind": "reflection",
+                "tool": null
+              },
+              {
+                "sequence": 12,
+                "kind": "candidate_generation",
+                "tool": null
+              },
+              {
+                "sequence": 13,
+                "kind": "candidate_persisted",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 14,
+                "kind": "candidate_tests",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 15,
+                "kind": "candidate_activated",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 16,
+                "kind": "retry",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 17,
+                "kind": "replan",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 18,
+                "kind": "current_step",
+                "tool": "business_break_even"
+              },
+              {
+                "sequence": 19,
+                "kind": "capability_resolved",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 20,
+                "kind": "tool_requested",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 21,
+                "kind": "tool_executed",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 22,
+                "kind": "result_verified",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 23,
+                "kind": "recovery_succeeded",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 24,
+                "kind": "completion_check",
+                "tool": null
+              },
+              {
+                "sequence": 25,
+                "kind": "goal_verified",
+                "tool": null
+              },
+              {
+                "sequence": 26,
+                "kind": "strategy_saved",
+                "tool": "candidate_break_even_6f0fbed44a"
+              },
+              {
+                "sequence": 27,
+                "kind": "final_answer",
+                "tool": null
+              }
+            ],
+            "created_at": "2026-10-11T02:54:24.168518+00:00"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "43d75cfd-ce45-4e62-8792-1a96b3d342ac",
+            "capability": "business_break_even",
+            "error_category": "unknown_tool",
+            "occurrences": 1,
+            "minimum_evidence": 1,
+            "status": "resolved_demo_gap",
+            "evidence": [
+              {
+                "task_id": "1764ffd4-7f38-4cba-b026-b1beee78efa9",
+                "category": "unknown_tool"
+              }
+            ],
+            "proposed_improvement": "Generate business_break_even against business-break-even-v1 independent oracle.",
+            "expected_benefit": "Resolve observed missing-tool failure; verify on this task and a separate reuse task.",
+            "risk": "high_untrusted_demo_host_code",
+            "resolved_tasks": 1
+          }
+        ],
+        "candidates": [
+          {
+            "id": "6f0fbed4-4a78-4389-ab45-a483a5b75d32",
+            "gap_id": "43d75cfd-ce45-4e62-8792-1a96b3d342ac",
+            "created_at": "2026-10-11T02:55:23.898545+00:00",
+            "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+            "version": 2,
+            "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+            "content_hash": "f02efa5a951ab3ff1ffa37b3a76568af84f6c8f25d4f0a6909f2b830362e4808",
+            "name": "candidate_break_even_6f0fbed44a",
+            "status": "active",
+            "error": null
+          }
+        ],
+        "active": [
+          {
+            "name": "candidate_break_even_6f0fbed44a",
+            "version_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+            "source_hash": "84dcac366a435db70935768508675f0337bb0c3c86fc73601ff12c67a4144371",
+            "version": 2
+          }
+        ],
+        "audit": [
+          {
+            "id": "b3e7fffa-3860-4200-8f41-4392abeac6f3",
+            "name": "candidate_break_even_6f0fbed44a",
+            "before_id": null,
+            "after_id": "b17072e9-865e-4ecf-8355-06feb15f1d35",
+            "action": "activate",
+            "actor": "automatic-demo-policy",
+            "reason": "Explicit local demo task opt-in; independent contract and actual executable tests passed.",
+            "created_at": "2026-10-11T02:55:53.612792+00:00"
+          }
+        ],
+        "sandbox": {
+          "available": false,
+          "enabled": false,
+          "policy": "docker-desktop-linux-v1",
+          "image": null,
+          "reason": "Candidate execution is disabled. Review-only mode; no candidate code runs.",
+          "timeout_seconds": 5.0
+        },
+        "demo": {
+          "available": true,
+          "enabled": true,
+          "policy": "local-demo-subprocess-v1",
+          "image": "host-python:baf7c819da8bf7aeb799d0c352ab496012b485cc90057367693dbeb200a3e488",
+          "timeout_seconds": 5.0,
+          "secure_sandbox": false,
+          "reason": "DEMO: host Python subprocess, NOT a secure sandbox. No OS filesystem/network/memory isolation. Explicit per-task opt-in is required."
+        },
+        "limitations": [
+          "Completion is not proof of correctness. Grounded business/median contract outputs and exact numeric calculator answers have independent checks; arbitrary prose remains unverified.",
+          "Legacy tasks have unknown requested capability/retry counts. Evaluation rules are deterministic-v1; user helpfulness feedback is not correctness verification.",
+          "No sensitive prompts, answers, file contents, arguments or preference text are included in this dashboard telemetry.",
+          "Lists are bounded to 200; source/task records remain in local SQLite. Explicit demo tasks can automatically approve tested median or eligible business candidates. No model-weight learning or deployment."
+        ]
+      },
+      "scenario": {
+        "goal": "A small business sells 200 units monthly at Rs600 each. Variable cost is Rs300 per unit, and monthly fixed costs are Rs45,000. Analyze revenue, total costs, profit, profit margin, break-even units, break-even revenue, and profit if sales increase by 20%. Use actual tools and verify all calculations. Recommend three practical actions to improve profitability.",
+        "http_status": 422,
+        "response": {
+          "detail": {
+            "code": "recovery_limit",
+            "message": "Bounded recovery attempts exhausted.",
+            "task_id": "eb672282-78e4-4aa8-b665-3aa737d6d8d6",
+            "activity": [
+              {
+                "sequence": 1,
+                "kind": "processing_request",
+                "message": "Processing tool-enabled request.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 2,
+                "kind": "strategy_evidence",
+                "message": "Loaded measured successful tool strategies from saved tasks.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "strategies": [
+                    {
+                      "tool": "candidate_break_even_6f0fbed44a",
+                      "successes": 2,
+                      "failures": 0,
+                      "observed_success_rate": 1.0
+                    },
+                    {
+                      "tool": "business_break_even",
+                      "successes": 0,
+                      "failures": 1,
+                      "observed_success_rate": 0.0
+                    }
+                  ],
+                  "model_weight_learning": false
+                }
+              },
+              {
+                "sequence": 3,
+                "kind": "tool_catalog_filtered",
+                "message": "Filtered tools by task relevance and actual data availability.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "offered": [
+                    "calculate",
+                    "candidate_break_even_6f0fbed44a",
+                    "business_revenue",
+                    "business_profit",
+                    "business_profit_margin",
+                    "business_break_even"
+                  ],
+                  "attachments": 0,
+                  "requirements": [
+                    {
+                      "capability": "business_revenue",
+                      "contract": "business-revenue-v1",
+                      "arguments_from_user": {
+                        "units": 200,
+                        "unit_price": 600.0
+                      },
+                      "label": "business_revenue"
+                    },
+                    {
+                      "capability": "business_profit",
+                      "contract": "business-profit-v1",
+                      "arguments_from_user": {
+                        "revenue": 120000.0,
+                        "total_cost": 105000.0
+                      },
+                      "label": "business_profit"
+                    },
+                    {
+                      "capability": "business_profit_margin",
+                      "contract": "business-profit-margin-v1",
+                      "arguments_from_user": {
+                        "revenue": 120000.0,
+                        "total_cost": 105000.0
+                      },
+                      "label": "business_profit_margin"
+                    },
+                    {
+                      "capability": "business_break_even",
+                      "contract": "business-break-even-v1",
+                      "arguments_from_user": {
+                        "fixed_cost": 45000.0,
+                        "unit_price": 600.0,
+                        "variable_cost": 300.0
+                      },
+                      "label": "business_break_even"
+                    },
+                    {
+                      "capability": "business_profit",
+                      "contract": "business-profit-v1",
+                      "arguments_from_user": {
+                        "revenue": 144000.0,
+                        "total_cost": 117000.0
+                      },
+                      "label": "projected_profit"
+                    }
+                  ]
+                }
+              },
+              {
+                "sequence": 4,
+                "kind": "model_request",
+                "message": "Requesting a structured decision from local Ollama.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "schema": "Plan",
+                  "attempt": 1
+                }
+              },
+              {
+                "sequence": 5,
+                "kind": "plan_created",
+                "message": "Local model created the execution plan.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "steps": [
+                    "Calculate current revenue: Use business_revenue tool with units=200 and unit_price=600.0.",
+                    "Calculate current total costs: Add fixed_cost=45000.0 to variable_cost=300*200=60000.0.",
+                    "Calculate current profit: Subtract total_cost from revenue.",
+                    "Calculate current profit margin: Use business_profit_margin tool with revenue=120000.0 and total_cost=105000.0.",
+                    "Calculate break-even units: Use candidate_break_even_6f0fbed44a tool with fixed_cost=45000.0, unit_price=600.0, and variable_cost=300.0.",
+                    "Calculate break-even revenue: Multiply break-even units by unit_price."
+                  ],
+                  "success_check": "Revenue: 120000.0, Total Costs: 105000.0, Profit: 15000.0, Profit Margin: 12.5%, Break-Even Units: 250, Break-Even Revenue: 150000.0"
+                }
+              },
+              {
+                "sequence": 6,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 1,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 7,
+                "kind": "batch_deferred",
+                "message": "Model proposed a batch; execute its first action, observe the result, then replan the remaining actions.",
+                "iteration": 1,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "proposed": [
+                    {
+                      "name": "business_revenue",
+                      "arguments": {
+                        "units": 200,
+                        "unit_price": 600
+                      }
+                    },
+                    {
+                      "name": "business_profit",
+                      "arguments": {
+                        "revenue": 120000,
+                        "total_cost": 105000
+                      }
+                    },
+                    {
+                      "name": "business_profit_margin",
+                      "arguments": {
+                        "revenue": 120000,
+                        "total_cost": 105000
+                      }
+                    },
+                    {
+                      "name": "business_break_even",
+                      "arguments": {
+                        "fixed_cost": 45000,
+                        "unit_price": 600,
+                        "variable_cost": 300
+                      }
+                    },
+                    {
+                      "name": "business_profit",
+                      "arguments": {
+                        "revenue": 144000,
+                        "total_cost": 117000
+                      }
+                    },
+                    {
+                      "name": "candidate_break_even_6f0fbed44a",
+                      "arguments": {
+                        "fixed_cost": 45000,
+                        "unit_price": 600,
+                        "variable_cost": 300
+                      }
+                    }
+                  ],
+                  "selected_index": 0
+                }
+              },
+              {
+                "sequence": 8,
+                "kind": "current_step",
+                "message": "Model selected business_revenue.",
+                "iteration": 1,
+                "tool": "business_revenue",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 1,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 9,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 1,
+                "tool": "business_revenue",
+                "call_id": null,
+                "arguments": {
+                  "units": 200,
+                  "unit_price": 600
+                },
+                "result": null
+              },
+              {
+                "sequence": 10,
+                "kind": "tool_failed",
+                "message": "Actual validation/registry/tool failure observed.",
+                "iteration": 1,
+                "tool": "business_revenue",
+                "call_id": null,
+                "arguments": {
+                  "units": 200,
+                  "unit_price": 600
+                },
+                "result": {
+                  "ok": false,
+                  "error": {
+                    "code": "ungrounded_arguments",
+                    "message": "Capability inputs must match a pending explicit task requirement.",
+                    "details": {
+                      "required": [
+                        {
+                          "capability": "business_revenue",
+                          "arguments": {
+                            "units": 200,
+                            "unit_price": 600.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit",
+                          "arguments": {
+                            "revenue": 120000.0,
+                            "total_cost": 105000.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit_margin",
+                          "arguments": {
+                            "revenue": 120000.0,
+                            "total_cost": 105000.0
+                          }
+                        },
+                        {
+                          "capability": "business_break_even",
+                          "arguments": {
+                            "fixed_cost": 45000.0,
+                            "unit_price": 600.0,
+                            "variable_cost": 300.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit",
+                          "arguments": {
+                            "revenue": 144000.0,
+                            "total_cost": 117000.0
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "category": "selection_failure"
+                }
+              },
+              {
+                "sequence": 11,
+                "kind": "reflection",
+                "message": "Use actionable schema/data errors to revise the action and replan unmet requirements.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "category": "selection_failure",
+                  "recovery": 1,
+                  "missing": [
+                    "business_revenue",
+                    "business_profit",
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 12,
+                "kind": "replan",
+                "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+                "iteration": 2,
+                "tool": "business_revenue",
+                "call_id": null,
+                "arguments": {
+                  "units": 200,
+                  "unit_price": 600.0
+                },
+                "result": {
+                  "decision_source": "backend_requirement_guard",
+                  "missing": [
+                    "business_revenue",
+                    "business_profit",
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 13,
+                "kind": "current_step",
+                "message": "Execute the grounded unmet requirement after recovery.",
+                "iteration": 2,
+                "tool": "business_revenue",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 2,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 14,
+                "kind": "capability_resolved",
+                "message": "Resolved capability to an existing registered tool.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "capability": "business_revenue",
+                  "selection_evidence": null
+                }
+              },
+              {
+                "sequence": 15,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 2,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "multiply",
+                  "a": 200,
+                  "b": 600.0
+                },
+                "result": null
+              },
+              {
+                "sequence": 16,
+                "kind": "tool_executed",
+                "message": "Registered tool executed successfully.",
+                "iteration": 2,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "multiply",
+                  "a": 200,
+                  "b": 600.0
+                },
+                "result": {
+                  "ok": true,
+                  "data": {
+                    "operation": "multiply",
+                    "a": 200.0,
+                    "b": 600.0,
+                    "value": 120000.0,
+                    "unit": "number"
+                  }
+                }
+              },
+              {
+                "sequence": 17,
+                "kind": "result_verified",
+                "message": "Actual executed output matches an independent business/numeric oracle.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "contract": "business-revenue-v1",
+                  "label": "business_revenue",
+                  "passed": true
+                }
+              },
+              {
+                "sequence": 18,
+                "kind": "recovery_succeeded",
+                "message": "A changed relevant action succeeded after observed failures.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 19,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 3,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 20,
+                "kind": "current_step",
+                "message": "Model selected business_profit.",
+                "iteration": 3,
+                "tool": "business_profit",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 3,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 21,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 3,
+                "tool": "business_profit",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000,
+                  "total_cost": 105000
+                },
+                "result": null
+              },
+              {
+                "sequence": 22,
+                "kind": "tool_failed",
+                "message": "Actual validation/registry/tool failure observed.",
+                "iteration": 3,
+                "tool": "business_profit",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000,
+                  "total_cost": 105000
+                },
+                "result": {
+                  "ok": false,
+                  "error": {
+                    "code": "ungrounded_arguments",
+                    "message": "Capability inputs must match a pending explicit task requirement.",
+                    "details": {
+                      "required": [
+                        {
+                          "capability": "business_profit",
+                          "arguments": {
+                            "revenue": 120000.0,
+                            "total_cost": 105000.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit_margin",
+                          "arguments": {
+                            "revenue": 120000.0,
+                            "total_cost": 105000.0
+                          }
+                        },
+                        {
+                          "capability": "business_break_even",
+                          "arguments": {
+                            "fixed_cost": 45000.0,
+                            "unit_price": 600.0,
+                            "variable_cost": 300.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit",
+                          "arguments": {
+                            "revenue": 144000.0,
+                            "total_cost": 117000.0
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "category": "selection_failure"
+                }
+              },
+              {
+                "sequence": 23,
+                "kind": "reflection",
+                "message": "Use actionable schema/data errors to revise the action and replan unmet requirements.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "category": "selection_failure",
+                  "recovery": 2,
+                  "missing": [
+                    "business_profit",
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 24,
+                "kind": "replan",
+                "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+                "iteration": 4,
+                "tool": "business_profit",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000.0,
+                  "total_cost": 105000.0
+                },
+                "result": {
+                  "decision_source": "backend_requirement_guard",
+                  "missing": [
+                    "business_profit",
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 25,
+                "kind": "current_step",
+                "message": "Execute the grounded unmet requirement after recovery.",
+                "iteration": 4,
+                "tool": "business_profit",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 4,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 26,
+                "kind": "capability_resolved",
+                "message": "Resolved capability to an existing registered tool.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "capability": "business_profit",
+                  "selection_evidence": null
+                }
+              },
+              {
+                "sequence": 27,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 4,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "profit",
+                  "a": 120000.0,
+                  "b": 105000.0
+                },
+                "result": null
+              },
+              {
+                "sequence": 28,
+                "kind": "tool_executed",
+                "message": "Registered tool executed successfully.",
+                "iteration": 4,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "profit",
+                  "a": 120000.0,
+                  "b": 105000.0
+                },
+                "result": {
+                  "ok": true,
+                  "data": {
+                    "operation": "profit",
+                    "a": 120000.0,
+                    "b": 105000.0,
+                    "value": 15000.0,
+                    "unit": "number"
+                  }
+                }
+              },
+              {
+                "sequence": 29,
+                "kind": "result_verified",
+                "message": "Actual executed output matches an independent business/numeric oracle.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "contract": "business-profit-v1",
+                  "label": "business_profit",
+                  "passed": true
+                }
+              },
+              {
+                "sequence": 30,
+                "kind": "recovery_succeeded",
+                "message": "A changed relevant action succeeded after observed failures.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 31,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 5,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 32,
+                "kind": "current_step",
+                "message": "Model selected business_profit_margin.",
+                "iteration": 5,
+                "tool": "business_profit_margin",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 5,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 33,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 5,
+                "tool": "business_profit_margin",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000,
+                  "total_cost": 105000
+                },
+                "result": null
+              },
+              {
+                "sequence": 34,
+                "kind": "tool_failed",
+                "message": "Actual validation/registry/tool failure observed.",
+                "iteration": 5,
+                "tool": "business_profit_margin",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000,
+                  "total_cost": 105000
+                },
+                "result": {
+                  "ok": false,
+                  "error": {
+                    "code": "ungrounded_arguments",
+                    "message": "Capability inputs must match a pending explicit task requirement.",
+                    "details": {
+                      "required": [
+                        {
+                          "capability": "business_profit_margin",
+                          "arguments": {
+                            "revenue": 120000.0,
+                            "total_cost": 105000.0
+                          }
+                        },
+                        {
+                          "capability": "business_break_even",
+                          "arguments": {
+                            "fixed_cost": 45000.0,
+                            "unit_price": 600.0,
+                            "variable_cost": 300.0
+                          }
+                        },
+                        {
+                          "capability": "business_profit",
+                          "arguments": {
+                            "revenue": 144000.0,
+                            "total_cost": 117000.0
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "category": "selection_failure"
+                }
+              },
+              {
+                "sequence": 35,
+                "kind": "reflection",
+                "message": "Use actionable schema/data errors to revise the action and replan unmet requirements.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "category": "selection_failure",
+                  "recovery": 3,
+                  "missing": [
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 36,
+                "kind": "replan",
+                "message": "Deterministic recovery selects a grounded unmet requirement; this is not a model decision.",
+                "iteration": 6,
+                "tool": "business_profit_margin",
+                "call_id": null,
+                "arguments": {
+                  "revenue": 120000.0,
+                  "total_cost": 105000.0
+                },
+                "result": {
+                  "decision_source": "backend_requirement_guard",
+                  "missing": [
+                    "business_profit_margin",
+                    "business_break_even",
+                    "projected_profit"
+                  ]
+                }
+              },
+              {
+                "sequence": 37,
+                "kind": "current_step",
+                "message": "Execute the grounded unmet requirement after recovery.",
+                "iteration": 6,
+                "tool": "business_profit_margin",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 6,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 38,
+                "kind": "capability_resolved",
+                "message": "Resolved capability to an existing registered tool.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "capability": "business_profit_margin",
+                  "selection_evidence": null
+                }
+              },
+              {
+                "sequence": 39,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 6,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "profit_margin",
+                  "a": 120000.0,
+                  "b": 105000.0
+                },
+                "result": null
+              },
+              {
+                "sequence": 40,
+                "kind": "tool_executed",
+                "message": "Registered tool executed successfully.",
+                "iteration": 6,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": {
+                  "operation": "profit_margin",
+                  "a": 120000.0,
+                  "b": 105000.0
+                },
+                "result": {
+                  "ok": true,
+                  "data": {
+                    "operation": "profit_margin",
+                    "a": 120000.0,
+                    "b": 105000.0,
+                    "value": 12.5,
+                    "unit": "percent"
+                  }
+                }
+              },
+              {
+                "sequence": 41,
+                "kind": "result_verified",
+                "message": "Actual executed output matches an independent business/numeric oracle.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "contract": "business-profit-margin-v1",
+                  "label": "business_profit_margin",
+                  "passed": true
+                }
+              },
+              {
+                "sequence": 42,
+                "kind": "recovery_succeeded",
+                "message": "A changed relevant action succeeded after observed failures.",
+                "iteration": null,
+                "tool": "calculate",
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 43,
+                "kind": "model_request",
+                "message": "Requesting the next native tool decision from local Ollama.",
+                "iteration": 7,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              },
+              {
+                "sequence": 44,
+                "kind": "current_step",
+                "message": "Model selected candidate_break_even_6f0fbed44a.",
+                "iteration": 7,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": null,
+                "result": {
+                  "step": 6,
+                  "action": "tool"
+                }
+              },
+              {
+                "sequence": 45,
+                "kind": "tool_requested",
+                "message": "Agent requested an action with actual inputs.",
+                "iteration": 7,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "variable_cost": 300,
+                  "fixed_cost": 45000,
+                  "unit_price": 600
+                },
+                "result": null
+              },
+              {
+                "sequence": 46,
+                "kind": "tool_failed",
+                "message": "Actual validation/registry/tool failure observed.",
+                "iteration": 7,
+                "tool": "candidate_break_even_6f0fbed44a",
+                "call_id": null,
+                "arguments": {
+                  "variable_cost": 300,
+                  "fixed_cost": 45000,
+                  "unit_price": 600
+                },
+                "result": {
+                  "ok": false,
+                  "error": {
+                    "code": "ungrounded_arguments",
+                    "message": "Generated tool operands must match a pending user-grounded requirement.",
+                    "details": {}
+                  },
+                  "category": "selection_failure"
+                }
+              },
+              {
+                "sequence": 47,
+                "kind": "failure",
+                "message": "Bounded recovery attempts exhausted.",
+                "iteration": null,
+                "tool": null,
+                "call_id": null,
+                "arguments": null,
+                "result": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "acceptance_passed": false,
+  "error": "AssertionError: {'detail': {'code': 'recovery_limit', 'message': 'Bounded recovery attempts exhausted.', 'task_id': 'eb672282-78e4-4aa8-b665-3aa737d6d8d6', 'activity': [{'sequence': 1, 'kind': 'processing_request', 'message': 'Processing tool-enabled request.', 'iteration': None, 'tool': None, 'call_id': None, 'arguments': None, 'result': None}, {'sequence': 2, 'kind': 'strategy_evidence', 'message': 'Loaded measured successful tool strategies from saved tasks.', 'iteration': None, 'tool': None, 'call_id': None, 'arguments': None, 'result': {'strategies': [{'tool': 'candidate_break_even_6f0fbed44a', 'successes': 2, 'failures': 0, 'observed_success_rate': 1.0}, {'tool': 'business_break_even', 'successes': 0, 'failures': 1, 'observed_success_rate': 0.0}], 'model_weight_learning': False}}, {'sequence': 3, 'kind': 'tool_catalog_filtered', 'message': 'Filtered tools by task relevance and actual data availability.', 'iteration': None, 'tool': None, 'call_id': None, 'arguments': None, 'result': {'offered': ['calculate', 'candidate_break_even_6f0fbed44a', 'business_revenue', 'business_profit', 'business_profit_margin', 'business_break_even'], 'attachments': 0, 'requirements': [{'capability': 'business_revenue', 'contract': 'business-revenue-v1', 'arguments_from_user': {'units': 200, 'unit_price': 600.0}, 'label': 'business_revenue'}, {'capability': 'business_profit', 'contract': 'business-profit-v1', 'arguments_from_user': {'revenue': 120000.0, 'total_cost': 105000.0}, 'label': 'business_profit'}, {'capability': 'business_profit_margin', 'contract': 'business-profit-margin-v1', 'arguments_from_user': {'revenue': 120000.0, 'total_cost': 105000.0}, 'label': 'business_profit_margin'}, {'capability': 'business_break_even', 'contract': 'business-break-even-v1', 'arguments_from_user': {'fixed_cost': 45000.0, 'unit_price': 600.0, 'variable_cost': 300.0}, 'label': 'business_break_even'}, {'capability': 'business_profit', 'contract': 'business-profit-v1', 'arguments_from_user': {'revenue': 144000.0, 'total_cost': 117000.0}, 'label': 'projected_profit'}]}}, {'sequence': 4, 'kind': 'model_request', 'message': 'Requesting a structured decision from local Ollama.', 'iteration': None, 'tool': None, 'call_id': None, 'arguments': None, 'result': {'schema': 'Plan', 'attempt': 1}}, {'sequence': 5, 'kind': 'plan_created', 'message': 'Local model created the execution plan.', 'iteration': None, 'tool': None, 'call_id': None, 'arguments': None, 'result': {'steps': ['Calculate current revenue: Use bus"
+}

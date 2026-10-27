@@ -1,0 +1,30 @@
+{
+  "all_original_user_and_audit_rows_unchanged": true,
+  "original_row_counts": {
+    "conversations": 4,
+    "tasks": 5,
+    "messages": 9,
+    "events": 29,
+    "preferences": 1,
+    "files": 3,
+    "task_files": 3,
+    "task_evidence": 2,
+    "feedback": 0,
+    "candidates": 1,
+    "candidate_versions": 2,
+    "candidate_states": 2,
+    "contracts": 0,
+    "validation_runs": 1,
+    "decisions": 0,
+    "active_tools": 0,
+    "activation_audit": 0
+  },
+  "derived_tables_recomputed": [
+    "evaluations",
+    "gaps"
+  ],
+  "all_original_workspace_files_unchanged": true,
+  "original_workspace_file_count": 5,
+  "backup": "D:\\evolve ai\\data\\backups\\before-agentic-core.sqlite3",
+  "schema_version": 3
+}
