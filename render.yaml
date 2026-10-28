@@ -16,9 +16,10 @@ services:
         sync: false
       - key: ACCESS_PASSWORD
         sync: false
-      # Model-written code must never run on a public host.
+      # Lets the agent build and test new tools. Generated code runs in a restricted
+      # subprocess on this server (not a secure sandbox), so keep ACCESS_PASSWORD set.
       - key: DEMO_MODE
-        value: "false"
+        value: "true"
       # Free Render disks are ephemeral: data resets on restart/redeploy.
       - key: EVOLVE_DATA_DIR
         value: /tmp/evolve/data

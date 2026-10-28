@@ -53,22 +53,11 @@ export type Upload = {
   kind?: "csv" | "xlsx";
   sheets?: { name: string; row_count: number; columns: string[] }[];
 };
-export type ToolMode =
-  | "agentic"
-  | "chat"
-  | "auto"
-  | "calculate"
-  | "analyze_csv"
-  | "list_workspace_files"
-  | "read_workspace_file"
-  | "create_report";
 export type ChatOptions = {
   taskId: string;
-  mode: ToolMode;
   upload?: Upload | null;
   conversationId: string;
   retryOf?: string | null;
-  demoTools?: boolean;
 };
 export class ApiError extends Error {
   constructor(
@@ -175,12 +164,10 @@ export function sendChat(
         messages: [messages[messages.length - 1]],
         conversation_id: options.conversationId,
         task_id: options.taskId,
-        use_tools: options.mode !== "chat",
-        tool_choice: ["chat", "agentic"].includes(options.mode)
-          ? "auto"
-          : options.mode,
-        agentic: options.mode === "agentic",
-        demo_tools: options.mode === "agentic" && !!options.demoTools,
+        use_tools: true,
+        tool_choice: "auto",
+        agentic: true,
+        demo_tools: true,
         upload_ids: options.upload ? [options.upload.upload_id] : [],
         retry_of: options.retryOf ?? null,
       }),

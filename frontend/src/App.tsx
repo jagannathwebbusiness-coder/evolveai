@@ -12,7 +12,6 @@ import type {
   ActivityEvent,
   Connection,
   Message,
-  ToolMode,
   Upload,
   Conversation,
   ConversationDetail,
@@ -75,8 +74,6 @@ export default function App() {
   const [error, setError] = useState("");
   const [failed, setFailed] = useState(false);
   const [mobileSidebar, setMobileSidebar] = useState(false);
-  const [mode, setMode] = useState<ToolMode>("agentic");
-  const [demoTools, setDemoTools] = useState(false);
   const [runningTask, setRunningTask] = useState<string | null>(null);
   const [liveActivity, setLiveActivity] = useState<ActivityEvent[]>([]);
   const [liveError, setLiveError] = useState("");
@@ -147,8 +144,6 @@ export default function App() {
       await loadMessages(id);
       chooseConversation(id);
       setAttachment(null);
-      setMode("agentic");
-      setDemoTools(false);
       setDraft("");
       setError("");
       setFailed(false);
@@ -277,11 +272,9 @@ export default function App() {
         messages.map(({ role, content }) => ({ role, content })),
         {
           taskId: taskId.current,
-          mode,
           upload: attachment,
           conversationId: savedId,
           retryOf: retry ? failedTask.current : null,
-          demoTools,
         },
       );
       if (!mounted.current) return;
@@ -378,8 +371,6 @@ export default function App() {
     setDraft("");
     setMobileSidebar(false);
     setAttachment(null);
-    setMode("agentic");
-    setDemoTools(false);
     setUploadError("");
     setErrorActivity([]);
     taskId.current = crypto.randomUUID();
@@ -409,7 +400,6 @@ export default function App() {
       const uploaded = await uploadFile(file, taskId.current, savedId);
       if (!mounted.current) return;
       setAttachment(uploaded);
-      setMode("analyze_csv");
       if (!draft.trim()) setDraft(analysisPrompt(uploaded));
     } catch (err) {
       if (mounted.current) setUploadError(errorMessage(err));
@@ -447,7 +437,6 @@ export default function App() {
       setEntries([]);
       setTasks([]);
       setAttachment(null);
-      setMode("auto");
       setDraft("");
       setError("");
       setFailed(false);
@@ -471,7 +460,6 @@ export default function App() {
       kind: file.metadata.sheets?.length ? "xlsx" : "csv",
       sheets: file.metadata.sheets ?? [],
     });
-    setMode("analyze_csv");
     setPage("chat");
     setDraft(
       analysisPrompt({
@@ -884,34 +872,9 @@ export default function App() {
 
             <footer className="composer-area">
               <div className="tool-controls">
-                <label htmlFor="tool-mode">Tools</label>
-                <select
-                  id="tool-mode"
-                  value={mode}
-                  disabled={busy || uploading || failed || historyLoading}
-                  onChange={(event) => {
-                    const next = event.target.value as ToolMode;
-                    setMode(next);
-                    if (next === "chat") setAttachment(null);
-                  }}
-                >
-                  <option value="agentic">Agentic · plan and recover</option>
-                  <option value="auto">Auto tools</option>
-                  <option value="calculate">Calculator required</option>
-                  <option value="analyze_csv" disabled={!attachment}>
-                    CSV / Excel analysis required
-                  </option>
-                  <option value="chat">Chat only</option>
-                  <option value="list_workspace_files">
-                    Workspace listing required
-                  </option>
-                  <option value="read_workspace_file">
-                    Workspace reading required
-                  </option>
-                  <option value="create_report">
-                    Report creation required
-                  </option>
-                </select>
+                <span className="agent-badge">
+                  EVOLVE agent · ReAct + Reflexion · builds and tests new tools when one is missing
+                </span>
                 <button
                   type="button"
                   className="attach-button"
@@ -934,33 +897,6 @@ export default function App() {
                   }}
                 />
               </div>
-              {mode === "agentic" && (
-                <div className="demo-controls">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={demoTools}
-                      disabled={
-                        busy ||
-                        uploading ||
-                        failed ||
-                        !connection?.tools.demo?.enabled
-                      }
-                      onChange={(event) => setDemoTools(event.target.checked)}
-                    />
-                    Enable local DEMO tool generation and execution for this
-                    task
-                  </label>
-                  <p>
-                    Demo code runs in a host Python subprocess, which is not a
-                    secure sandbox.
-                    {!connection?.tools.demo?.enabled &&
-                      " Backend demo execution is disabled; set DEMO_MODE=true and restart to enable this option."}
-                    {demoTools &&
-                      " Candidates activate automatically only after independent tests pass. This opt-in also permits reuse of active demo tools."}
-                  </p>
-                </div>
-              )}
               {attachment && (
                 <div className="attachment">
                   <span>
@@ -999,7 +935,6 @@ export default function App() {
                     disabled={busy || uploading || failed}
                     onClick={() => {
                       setAttachment(null);
-                      if (mode === "analyze_csv") setMode("auto");
                     }}
                   >
                     ×

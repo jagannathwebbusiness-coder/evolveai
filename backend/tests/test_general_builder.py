@@ -205,7 +205,6 @@ def test_runtime_import_and_builtin_restrictions_hold(env):
 @pytest.mark.parametrize(
     "mutate",
     [
-        lambda s: {**s, "input_schema": {"type": "object", "properties": {}}},
         lambda s: {**s, "output_schema": {"type": "array", "items": {"type": "number"}, "maxItems": 3}},
         lambda s: {**s, "dependencies": ["os"]},
         lambda s: {**s, "stem": "Bad Name"},
@@ -357,7 +356,7 @@ def test_unknown_tool_drafts_for_approval_then_runs_only_after_human_approval():
         result = drafted.json()
         kinds = [e["kind"] for e in result["activity"]]
         assert "approval_required" in kinds and "candidate_activated" not in kinds
-        assert "not active yet" in result["message"]
+        assert "awaiting your approval" in result["message"]
         snapshot = client.get("/improvement").json()
         assert snapshot["active"] == []
         candidate = snapshot["candidates"][0]
@@ -575,3 +574,52 @@ def test_many_disputes_are_not_cross_checked(env):
     with pytest.raises(Conflict):
         build(env, client)
     assert not any(e["kind"] == "tests_adjudicated" for e in env[3])
+
+
+def test_build_a_tool_request_builds_stores_and_trials_without_a_tool_name():
+    settings = Settings(_env_file=None, demo_mode=True)
+    task = {
+        "messages": [
+            {"role": "user", "content": "Create a tool that converts celsius to fahrenheit"}
+        ],
+    }
+    with TestClient(
+        create_app(settings, agent_transport([SPEC, TESTS, {"source": CODE}]))
+    ) as client:
+        response = client.post("/chat", json=task)
+        assert response.status_code == 200, response.text
+        result = response.json()
+        kinds = [e["kind"] for e in result["activity"]]
+        assert {"tool_spec_drafted", "candidate_tests", "trial_run"} <= set(kinds)
+        assert "Trial run" in result["message"]
+        assert client.get("/improvement").json()["active"] == []
+        assert client.get("/improvement").json()["candidates"][0]["status"] == "awaiting_approval"
+        assert "reflexion_saved" in kinds
+
+
+def test_reflexion_lessons_are_stored_and_recalled_for_similar_goals():
+    settings = Settings(_env_file=None, demo_mode=True)
+    build = {
+        "messages": [
+            {"role": "user", "content": "Create a tool that converts celsius to fahrenheit"}
+        ],
+    }
+    ask = {"messages": [{"role": "user", "content": "How do celsius and fahrenheit relate"}]}
+    script = [SPEC, TESTS, {"source": CODE}, PLAN, lambda body: text("Fahrenheit is celsius times nine fifths plus thirty two.")]
+    with TestClient(create_app(settings, agent_transport(script))) as client:
+        assert client.post("/chat", json=build).status_code == 200
+        reply = client.post("/chat", json=ask)
+        assert reply.status_code == 200, reply.text
+        recalled = [e for e in reply.json()["activity"] if e["kind"] == "reflexion_recalled"]
+        assert recalled and "celsius" in recalled[0]["result"]["lessons"][0]["lesson"].lower()
+
+
+def test_spec_schema_bounds_are_filled_in_when_the_model_omits_them():
+    from app.improvement.general_builder import normalize_schema
+    from app.improvement.models import schema_check
+
+    schema = {
+        "type": "object",
+        "properties": {"label": {"type": "string"}, "rows": {"type": "array", "items": {"type": "string"}}},
+    }
+    schema_check(normalize_schema(schema))

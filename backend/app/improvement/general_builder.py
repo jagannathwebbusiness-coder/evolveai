@@ -63,6 +63,25 @@ CODE_RULES = (
 )
 
 
+def normalize_schema(schema, depth=0):
+    """Fill the bounds models often omit (string length, array size, additionalProperties)."""
+    if not isinstance(schema, dict) or depth > 5:
+        return schema
+    kind = schema.get("type")
+    if kind == "string":
+        schema["maxLength"] = min(int(schema.get("maxLength") or 200), 4000) if isinstance(schema.get("maxLength"), (int, float)) else 200
+    elif kind == "array":
+        cap = schema.get("maxItems")
+        schema["maxItems"] = min(int(cap), 100) if isinstance(cap, (int, float)) else 50
+        normalize_schema(schema.get("items"), depth + 1)
+    elif kind == "object":
+        schema["additionalProperties"] = False
+        schema.setdefault("required", [])
+        for value in (schema.get("properties") or {}).values():
+            normalize_schema(value, depth + 1)
+    return schema
+
+
 class GeneralSpec(Strict):
     stem: str = Field(pattern=r"^[a-z][a-z0-9_]{2,23}$")
     description: str = Field(min_length=10, max_length=300)
@@ -214,6 +233,8 @@ class Builder:
             "spec",
         )
         try:
+            normalize_schema(spec.input_schema)
+            normalize_schema(spec.output_schema)
             schema_check(spec.input_schema)
             schema_check(spec.output_schema)
         except (ValueError, KeyError, TypeError) as exc:
@@ -347,7 +368,47 @@ def _results(execution, count):
 
 
 async def build_general(settings, client, database, record, goal, requested, arguments, task_id):
-    """Draft, test and persist a tool awaiting human approval. Never activates anything."""
+    """Draft, test and persist a tool awaiting human approval, then trial it once.
+
+    The trial runs the new code in the DEMO subprocess on the user's own arguments (or the
+    first model-written valid case) so the answer shows the tool working. It never activates
+    the tool: permanent use still needs the human approval step.
+    """
+    outcome = await _build_general(
+        settings, client, database, record, goal, requested, arguments, task_id
+    )
+    version = Repository(database).version(outcome["version_id"])
+    outcome["trial"] = None
+    source = version["source"]
+    adapter = DemoSubprocess(settings)
+    tests = version["manifest"].get("generated_tests") or []
+    pool = [arguments] if isinstance(arguments, dict) and arguments else []
+    pool += [t["input"] for t in tests if not t.get("reject")][:1]
+    for given in pool:
+        try:
+            execution = await run_in_threadpool(adapter.run, source, [given])
+        except Exception:
+            continue
+        values = _results(execution, 1)
+        if values and values[0].get("ok") is True:
+            outcome["trial"] = {
+                "input": given,
+                "output": values[0].get("value"),
+                "user_supplied": given is arguments,
+            }
+            break
+    record(
+        "trial_run",
+        "Ran the new tool once in the DEMO subprocess to show it working. Not independently verified."
+        if outcome["trial"]
+        else "No valid input was available for a trial run.",
+        tool=outcome["name"],
+        result=outcome["trial"],
+    )
+    return outcome
+
+
+async def _build_general(settings, client, database, record, goal, requested, arguments, task_id):
     if not settings.demo_mode:
         raise Conflict("Local demo execution is disabled.")
     builder = Builder(settings, client, database, record)

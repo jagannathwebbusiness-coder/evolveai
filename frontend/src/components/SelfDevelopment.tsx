@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ApiError, request } from "../lib/api";
 import type { ActivityEvent } from "../lib/api";
 import ActivityLog from "./ActivityLog";
+import Metrics from "./Metrics";
 import { binding, reviewRequest, reviewSession } from "../lib/improvement";
 import type { Candidate, Improvement, Version } from "../lib/improvement";
 import DataDialog from "./DataDialog";
@@ -249,6 +250,7 @@ export default function SelfDevelopment() {
 
   return (
     <section className="data-page development" aria-label="Self-Development">
+      <Metrics />
       <div className="development-heading">
         <div>
           <span className="eyebrow">EVIDENCE BEFORE CHANGE</span>

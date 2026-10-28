@@ -14,10 +14,10 @@ from starlette.concurrency import run_in_threadpool
 from starlette.types import ASGIApp, Receive, Scope, Send
 
 from .access import COOKIE, AccessGate, is_authorized, session_value
+from . import metrics
 from .config import Settings
 from .api import router
 from .storage import Database, MissingRecord, Conflict
-from .agent.loop import AgentLoop
 from .agent.core import CoreAgent
 from .improvement.demo_subprocess import DemoSubprocess
 from .llm_client import LLMClient, LLMError
@@ -235,6 +235,10 @@ def create_app(
     async def model_status(request: Request):
         return await request.app.state.llm.model_status()
 
+    @app.get("/metrics")
+    async def evaluation_metrics(request: Request):
+        return metrics.compute(request.app.state.database)
+
     @app.get("/tools")
     async def tools(request: Request):
         registry = ToolRegistry(
@@ -310,12 +314,6 @@ def create_app(
 
     @app.post("/chat", response_model=ChatResponse)
     async def chat(body: ChatRequest, request: Request):
-        if body.demo_tools and not settings.demo_mode:
-            raise LLMError(
-                403,
-                "demo_disabled",
-                "Local demo execution is disabled. Set DEMO_MODE=true in .env and restart the backend to enable the explicit demo opt-in.",
-            )
         lock = request.app.state.chat_lock
         if lock.locked():
             raise LLMError(
@@ -361,56 +359,27 @@ def create_app(
                 update={
                     "messages": messages,
                     "task_id": task_id,
-                    **({"conversation_id": conversation_id} if body.agentic else {}),
+                    "conversation_id": conversation_id,
                 }
             )
             started = perf_counter()
             try:
                 request.app.state.evaluator.record_request(task_id, body)
-                if body.use_tools:
-                    result = await (CoreAgent if body.agentic else AgentLoop)(
-                        settings,
-                        request.app.state.llm,
-                        uploads,
-                        context,
-                        preferences,
-                        lambda event: database.event(task_id, event),
-                    ).run(prepared)
-                else:
-                    database.event(
-                        task_id,
-                        ActivityEvent(
-                            sequence=1,
-                            kind="model_request",
-                            message="Requesting chat-only response from the model API.",
-                        ),
-                    )
-                    answer = await request.app.state.llm.chat(messages, context)
-                    database.event(
-                        task_id,
-                        ActivityEvent(
-                            sequence=2,
-                            kind="final_answer",
-                            message="Final answer received. No tools executed.",
-                        ),
-                    )
-                    result = ChatResponse(
-                        model=answer.model,
-                        message=answer.message.content,
-                        duration_ms=round((perf_counter() - started) * 1000),
-                        truncated=answer.done_reason == "length",
-                    )
+                # One mode only: every request runs the agentic ReAct + Reflexion loop.
+                result = await CoreAgent(
+                    settings,
+                    request.app.state.llm,
+                    uploads,
+                    context,
+                    preferences,
+                    lambda event: database.event(task_id, event),
+                ).run(prepared)
                 database.finish(task_id, response=result)
                 request.app.state.evaluator.refresh()
                 return result.model_copy(
                     update={"task_id": task_id, "conversation_id": conversation_id}
                 )
             except LLMError as exc:
-                if not body.use_tools:
-                    database.event(
-                        task_id,
-                        ActivityEvent(sequence=2, kind="failure", message=exc.message),
-                    )
                 database.finish(
                     task_id,
                     error=exc.message,

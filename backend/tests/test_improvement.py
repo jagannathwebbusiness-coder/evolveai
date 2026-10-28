@@ -740,7 +740,7 @@ def test_populated_v2_migration_copy_preserves_all_phase3_rows(tmp_path):
     database.initialize()
     database.initialize()
     with database.connect() as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 3
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 4
         for t in tables:
             assert [tuple(r) for r in db.execute(f"SELECT * FROM {t}")] == before[t]
         assert db.execute("PRAGMA integrity_check").fetchone()[0] == "ok"

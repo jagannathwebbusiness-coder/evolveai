@@ -13,11 +13,11 @@ type Stage =
 
 const STAGE: Record<Stage, { label: string; icon: string }> = {
   setup: { label: "Plan", icon: "◎" },
-  decide: { label: "Model decision", icon: "◆" },
-  tool: { label: "Tool", icon: "⚙" },
-  verify: { label: "Verified", icon: "✓" },
-  recover: { label: "Recovery", icon: "↻" },
-  build: { label: "Tool builder", icon: "✦" },
+  decide: { label: "Thought", icon: "◆" },
+  tool: { label: "Action", icon: "⚙" },
+  verify: { label: "Evaluate", icon: "✓" },
+  recover: { label: "Reflexion", icon: "↻" },
+  build: { label: "Develop", icon: "✦" },
   done: { label: "Done", icon: "●" },
   fail: { label: "Failed", icon: "✕" },
 };
@@ -59,6 +59,9 @@ const KIND_STAGE: Record<string, Stage> = {
   candidate_determinism: "build",
   tests_adjudicated: "build",
   approval_required: "done",
+  trial_run: "build",
+  reflexion_recalled: "recover",
+  reflexion_saved: "recover",
   result_unverified_tool: "verify",
   strategy_saved: "done",
   final_answer: "done",
@@ -221,9 +224,9 @@ export default function ActivityLog({
         )}
       </ol>
       <p className="workflow-note">
-        Real backend events only. Model reasoning is not shown. “Model decision”
-        steps come from the model API; verification and recovery steps are
-        enforced by the backend.
+        Real backend events only. ReAct: Thought → Action → Observation each
+        step. Reflexion: lessons from past failures are recalled before planning
+        and stored after each task. Verification is enforced by the backend.
       </p>
     </section>
   );

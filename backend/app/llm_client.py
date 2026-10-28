@@ -87,7 +87,7 @@ class LLMClient:
                 except ValueError:
                     wait = 2**attempt
                 if (
-                    wait <= 30
+                    wait <= 60
                 ):  # A longer wait means quota exhaustion; fail clearly instead.
                     await asyncio.sleep(max(wait, 0.5))
                     continue

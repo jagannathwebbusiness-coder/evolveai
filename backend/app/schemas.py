@@ -18,9 +18,10 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     messages: list[ChatMessage] = Field(min_length=1, max_length=MAX_MESSAGES)
-    use_tools: bool = False  # Existing Phase 1 callers retain plain chat.
-    agentic: bool = False
-    demo_tools: bool = False
+    # Kept so older clients still validate; EVOLVE always runs the agentic loop.
+    use_tools: bool = True
+    agentic: bool = True
+    demo_tools: bool = True
     tool_choice: Literal[
         "auto",
         "calculate",
@@ -36,10 +37,6 @@ class ChatRequest(BaseModel):
 
     @model_validator(mode="after")
     def validate_history(self) -> "ChatRequest":
-        if self.agentic and not self.use_tools:
-            raise ValueError("Agentic mode requires tools.")
-        if self.demo_tools and not self.agentic:
-            raise ValueError("Demo tool execution requires explicit agentic opt-in.")
         if self.messages[-1].role != "user":
             raise ValueError("The last message must be from the user.")
         if sum(len(message.content) for message in self.messages) > MAX_HISTORY_CHARS:

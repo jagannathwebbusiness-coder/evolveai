@@ -9,6 +9,7 @@ from uuid import uuid4
 from pydantic import Field
 from starlette.concurrency import run_in_threadpool
 
+from .. import reflexion
 from .loop import AgentCompletion, AgentLoop
 from ..improvement.demo_builder import build
 from ..improvement.general_builder import build_general
@@ -378,11 +379,35 @@ class CoreAgent(AgentLoop):
             )
         return sorted(evidence.values(), key=lambda item: -item["successes"])
 
+    async def run(self, body):
+        """ReAct loop (plan, act, observe) wrapped by Reflexion (recall before, reflect after)."""
+        goal = body.messages[-1].content
+        try:
+            result = await super().run(body)
+        except BaseException:
+            self.reflect(goal)
+            raise
+        self.reflect(goal)
+        result.activity = list(self.activity)
+        return result
+
+    def reflect(self, goal):
+        try:
+            saved = reflexion.save(self.uploads.database, self.task_id, goal)
+        except Exception:
+            return
+        if saved:
+            self.record(
+                "reflexion_saved",
+                f"Reflexion: stored {saved} lesson(s) from this task in the database for future planning.",
+                result={"lessons": saved},
+            )
+
     async def draft_general(self, body, goal, name, arguments, started):
         """No tool serves this goal: draft one for the user's approval; never activate it."""
         self.record(
             "capability_gap",
-            "No registered tool can do this. Drafting a new tool for your review; it will not run until you approve it.",
+            "No registered tool can do this. Building a new tool: spec, independent tests, code, then validation.",
             tool=name,
             result={"requested_arguments": arguments, "general_tool": True},
         )
@@ -401,25 +426,34 @@ class CoreAgent(AgentLoop):
             raise LLMError(422, "candidate_build_failed", str(problem)) from problem
         self.record(
             "approval_required",
-            "The drafted tool passed its model-written tests. It is NOT active: review its source and tests in Self-Development, then approve and activate it.",
+            "The new tool passed its tests and was trialled once. It is stored but NOT active for future tasks until you approve it in Self-Development.",
             tool=outcome["name"],
             result=outcome | {"independently_verified": False},
         )
-        message = (
-            f"I couldn't do this with the existing tools, so I drafted a new one: `{outcome['name']}`.\n\n"
-            f"- It passed {outcome['passed']} checks: {outcome['model_cases']} model-written test cases "
-            "(written by a separate model call that never saw the code) plus input-boundary checks.\n"
-            + (
-                f"- {outcome['disputed']} test expectation(s) disagreed with the code; an independently written second "
-                "implementation agreed with the code instead. They are marked **[disputed]** in the test list. Please check them.\n"
-                if outcome.get("disputed")
-                else ""
+        trial = outcome.get("trial")
+        lines = [
+            f"No existing tool covered this, so I built a new one: `{outcome['name']}`.",
+            "",
+            f"- **Tested:** {outcome['passed']} checks passed ({outcome['model_cases']} test cases written by a "
+            "separate model call that never saw the code, plus input-boundary checks).",
+        ]
+        if outcome.get("disputed"):
+            lines.append(
+                f"- {outcome['disputed']} test expectation(s) disagreed with the code; an independently written "
+                "second implementation agreed with the code instead. They are marked **[disputed]** in the test list."
             )
-            + "- That is evidence, not proof, and **it is not active yet**.\n\n"
-            "**Next:** open *Self-Development*, review the source and tests, then approve and activate it. "
-            "Then send this request again (with the demo option enabled) and I will use it."
+        lines.append(
+            "- **Stored:** source, spec and tests are saved in the database (Self-Development, Candidate tools)."
         )
-        self.record("final_answer", "Tool drafted; waiting for your approval.")
+        if trial:
+            where = "" if trial["user_supplied"] else " (on its first test case)"
+            lines.append(
+                f"- **Trial run{where}:** input `{json.dumps(trial['input'])}` gave `{json.dumps(trial['output'])}` "
+                "(model-written code, not independently verified)."
+            )
+        lines.append("- **Status:** awaiting your approval before it is used in future tasks.")
+        message = chr(10).join(lines)
+        self.record("final_answer", "Tool built, tested and stored; permanent use awaits your approval.")
         return ChatResponse(
             model=self.settings.llm_model,
             message=message,
@@ -457,6 +491,17 @@ class CoreAgent(AgentLoop):
             raise LLMError(503, status.status, status.message)
         goal = body.messages[-1].content
         policy = TaskPolicy(goal, body)
+        build_request = re.search(
+            r"\b(?:create|build|make|develop|generate|write)\b[^.!?\n]{0,40}\btool\b", goal, re.I
+        )
+        if (
+            build_request
+            and body.demo_tools
+            and self.settings.demo_mode
+            and not body.upload_ids
+            and not policy.requirements
+        ):
+            return await self.draft_general(body, goal, "custom_tool", {}, started)
         if policy.missing_operands and not re.search(r"\d", goal):
             # No numbers at all: a request for help, not a calculation. Ask instead of failing.
             lines = []
@@ -529,8 +574,16 @@ class CoreAgent(AgentLoop):
             "Loaded measured successful tool strategies from saved tasks.",
             result={"strategies": strategies, "model_weight_learning": False},
         )
+        lessons = reflexion.recall(self.uploads.database, goal)
+        if lessons:
+            self.record(
+                "reflexion_recalled",
+                f"Reflexion: recalled {len(lessons)} lesson(s) from earlier tasks to guide planning.",
+                result={"lessons": lessons},
+            )
         context = {
             "goal": goal,
+            "lessons_from_past_tasks": lessons,
             "successful_strategies": strategies,
             "attachments": self.attachment_context(body),
             "saved_context": self.context[:1200],
@@ -560,7 +613,10 @@ class CoreAgent(AgentLoop):
             },
         )
         system = (
-            "You are EVOLVE's business agent. Plan, choose a relevant tool, inspect its real output, then replan. "
+            "You are EVOLVE, a self-developing AGENTIC AI for business intelligence (not a plain chatbot or generative-text assistant). "
+            "You work in a ReAct loop (reason briefly, act with a tool, observe the real result, repeat) with Reflexion (learn from past failures: lessons_from_past_tasks). "
+            "If asked who you are, say you are EVOLVE, an agentic AI that plans, uses tools, checks its own results and builds new tools when a capability is missing. "
+            "Plan, choose a relevant tool, inspect its real output, then replan. "
             "Use native tool_calls with schema-valid arguments. Capability requests resolve to registered tools or an actual gap. "
             "Only supplied upload IDs and observed/user-supplied file paths are available. Inline numbers do not imply a CSV exists. "
             "Never invent results, files, operands or successful tool creation. Required capabilities include exact arguments grounded by the backend. "

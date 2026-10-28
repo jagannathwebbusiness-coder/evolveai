@@ -27,7 +27,7 @@ class Conflict(Exception):
 
 
 class Database:
-    VERSION = 3
+    VERSION = 4
 
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -84,6 +84,12 @@ class Database:
 
                 migrate(db)
                 db.execute("PRAGMA user_version=3")
+            if version < 4:
+                # Reflexion memory: lessons learned from earlier tasks.
+                db.execute(
+                    "CREATE TABLE lessons(id TEXT PRIMARY KEY, task_id TEXT NOT NULL, category TEXT NOT NULL, lesson TEXT NOT NULL, keywords TEXT NOT NULL, created_at TEXT NOT NULL)"
+                )
+                db.execute("PRAGMA user_version=4")
             if recover:
                 db.execute(
                     "UPDATE tasks SET status='interrupted',error=?,updated_at=? WHERE status='running'",

@@ -95,9 +95,29 @@ def to_wire_response(response: httpx.Response, was_models: bool) -> httpx.Respon
     )
 
 
-def adapt(handler) -> httpx.MockTransport:
+PLAN = {"steps": ["Answer the request"], "success_check": "A useful answer"}
+
+
+def adapt(handler, plain_chat=False) -> httpx.MockTransport:
     async def wire_handler(request: httpx.Request) -> httpx.Response:
         legacy = to_legacy_request(request)
+        # The agent always plans first; fixtures written for plain chat get a trivial plan.
+        if (
+            plain_chat
+            and legacy.url.path.endswith("/chat")
+            and b"Create concrete steps" in legacy.content
+        ):
+            return to_wire_response(
+                httpx.Response(
+                    200,
+                    json={
+                        "model": "qwen2.5:3b",
+                        "done": True,
+                        "message": {"role": "assistant", "content": json.dumps(PLAN)},
+                    },
+                ),
+                False,
+            )
         response = handler(legacy)
         if inspect.isawaitable(response):
             response = await response

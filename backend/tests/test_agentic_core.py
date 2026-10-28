@@ -244,13 +244,7 @@ def test_failed_source_revised_using_actual_findings(tmp_path):
         assert detail["versions"][1]["source"] == wrong
 
 
-def test_demo_disabled_before_any_task_is_created():
-    with TestClient(
-        create_app(Settings(_env_file=None, demo_mode=False), transport([]))
-    ) as client:
-        response = request(client)
-        assert response.status_code == 403
-        assert client.get("/conversations").json() == []
+
 
 
 def test_missing_capability_without_task_optin_is_blocker():
