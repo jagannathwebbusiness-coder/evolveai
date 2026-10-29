@@ -50,6 +50,23 @@ class TaskPolicy:
         self.listed_paths = set()
         self.report_done = False
         self.csv_done = False
+        self.trend = self.csv and bool(
+            re.search(
+                r"\b(trends?|anomal\w*|outliers?|spikes?|unusual|growth|declin\w*|increasing|decreasing|over time)\b",
+                intent,
+            )
+        )
+        self.docs = (
+            not self.csv
+            and not self.requirements
+            and bool(
+                re.search(
+                    r"\b(policy|policies|sops?|handbook|guidelines?|manual|documents?|knowledge|saved notes?|according to (?:our|the|my))\b",
+                    intent,
+                )
+            )
+        )
+        self.trend_done = self.docs_done = False
         self.read_done = False
         self.list_done = False
         self.arithmetic = self._arithmetic(intent) if not self.requirements else None
@@ -132,6 +149,10 @@ class TaskPolicy:
             names.add("calculate")
         if self.csv:
             names.add("analyze_csv")
+        if self.trend:
+            names.add("analyze_trend")
+        if self.docs:
+            names.add("search_documents")
         if self.workspace:
             names.update(("list_workspace_files", "read_workspace_file"))
         if self.report:
@@ -229,6 +250,10 @@ class TaskPolicy:
             return self.report
         if name == "analyze_csv":
             return self.csv
+        if name == "analyze_trend":
+            return self.trend
+        if name == "search_documents":
+            return self.docs
         return bool(self.arithmetic or self.requirements)
 
     def observe(self, name, arguments, result):
@@ -243,6 +268,10 @@ class TaskPolicy:
             self.read_done = True
         if name == "analyze_csv":
             self.csv_done = True
+        if name == "analyze_trend":
+            self.csv_done = self.trend_done = True
+        if name == "search_documents":
+            self.docs_done = True
         if name == "create_report":
             self.report_done = True
             self.report_output = result
@@ -255,6 +284,7 @@ class TaskPolicy:
             self.requirements
             or self.missing_operands
             or self.csv
+            or self.docs
             or self.workspace
             or self.report
             or self.arithmetic
@@ -271,6 +301,10 @@ class TaskPolicy:
             missing.append("actual saved report")
         if self.csv and not self.csv_done:
             missing.append("attached CSV analysis")
+        if self.trend and not self.trend_done:
+            missing.append("trend and anomaly analysis")
+        if self.docs and not self.docs_done:
+            missing.append("document search")
         if (
             self.workspace
             and re.search(r"\bread\b", self.goal, re.I)

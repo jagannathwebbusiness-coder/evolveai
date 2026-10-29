@@ -53,6 +53,12 @@ class Action(Strict):
     summary: str = Field(min_length=1, max_length=1500)
 
 
+RISKY = re.compile(
+    r"\b(delete|erase|wipe|wire transfer|transfer (?:the )?(?:money|funds)|pay (?:the|my|this|him|her|them)|send (?:an? )?(?:email|message|money)|passwords?|credentials?|invest(?:ment)? advice|(?:should i|buy|sell) (?:buy|sell|invest|stocks?))\b",
+    re.I,
+)
+
+
 class CoreAgent(AgentLoop):
     def complete(self, started, successful, policy, registry, summary):
         message = summary
@@ -387,9 +393,53 @@ class CoreAgent(AgentLoop):
         except BaseException:
             self.reflect(goal)
             raise
+        await self.review(goal, result)
         self.reflect(goal)
         result.activity = list(self.activity)
         return result
+
+    async def review(self, goal, result):
+        """Reviewer agent: one short model call scores the answer against the tool results."""
+        ran = [e for e in self.activity if e.kind == "tool_executed"]
+        if not (self.settings.reviewer_enabled and ran and result.message):
+            return
+        evidence = [
+            {"tool": e.tool, "data": json.dumps((e.result or {}).get("data"))[:500]}
+            for e in ran[-3:]
+        ]
+        try:
+            payload = await self.client.complete(
+                [
+                    {
+                        "role": "system",
+                        "content": "You are the Reviewer agent of EVOLVE. Judge the final answer ONLY against "
+                        "the tool results. Reply with JSON {\"score\": 1-5, \"critique\": \"one short sentence\"}. "
+                        "5 = fully supported by the tool results; 1 = unsupported or wrong.",
+                    },
+                    {
+                        "role": "user",
+                        "content": json.dumps(
+                            {"goal": goal[:300], "tool_results": evidence, "answer": result.message[:1200]}
+                        ),
+                    },
+                ],
+                json_mode=True,
+                max_tokens=120,
+                temperature=0,
+            )
+            verdict = json.loads(payload["message"]["content"])
+            score = int(verdict["score"])
+            critique = str(verdict.get("critique", ""))[:200]
+            if not 1 <= score <= 5:
+                return
+        except Exception:
+            return
+        self.record(
+            "self_review",
+            f"Reviewer agent scored the answer {score}/5 against the tool results.",
+            result={"score": score, "critique": critique},
+        )
+        result.message += f"\n\n_Self-review: {score}/5. {critique}_"
 
     def reflect(self, goal):
         try:
@@ -403,7 +453,9 @@ class CoreAgent(AgentLoop):
                 result={"lessons": saved},
             )
 
-    async def draft_general(self, body, goal, name, arguments, started):
+    async def draft_general(
+        self, body, goal, name, arguments, started, improving=None
+    ):
         """No tool serves this goal: draft one for the user's approval; never activate it."""
         self.record(
             "capability_gap",
@@ -432,7 +484,11 @@ class CoreAgent(AgentLoop):
         )
         trial = outcome.get("trial")
         lines = [
-            f"No existing tool covered this, so I built a new one: `{outcome['name']}`.",
+            (
+                f"`{improving}` failed while running, so I built an improved version: `{outcome['name']}`."
+                if improving
+                else f"No existing tool covered this, so I built a new one: `{outcome['name']}`."
+            ),
             "",
             f"- **Tested:** {outcome['passed']} checks passed ({outcome['model_cases']} test cases written by a "
             "separate model call that never saw the code, plus input-boundary checks).",
@@ -491,6 +547,25 @@ class CoreAgent(AgentLoop):
             raise LLMError(503, status.status, status.message)
         goal = body.messages[-1].content
         policy = TaskPolicy(goal, body)
+        risky = RISKY.search(goal)
+        if risky:
+            self.record(
+                "escalated_to_human",
+                f"High-risk request ('{risky.group(0)}'). EVOLVE analyses and calculates but does not act on these; handing the decision to a human.",
+                result={"trigger": risky.group(0)},
+            )
+            self.record("final_answer", "Escalated to a human decision-maker.")
+            return ChatResponse(
+                model=self.settings.llm_model,
+                message=(
+                    f"This involves **{risky.group(0)}**, which is a high-risk action. I don't perform it on my own: "
+                    "a person needs to decide and approve it. I can still prepare the numbers or analysis to support that decision."
+                ),
+                task_id=self.task_id,
+                activity=self.activity,
+                truncated=False,
+                duration_ms=round((perf_counter() - started) * 1000),
+            )
         build_request = re.search(
             r"\b(?:create|build|make|develop|generate|write)\b[^.!?\n]{0,40}\btool\b", goal, re.I
         )
@@ -1055,6 +1130,29 @@ class CoreAgent(AgentLoop):
                     ) from exc
                 if exc.code in {"division_by_zero", "invalid_business_input"}:
                     raise LLMError(422, "agent_blocked", exc.message) from exc
+                if (
+                    category == "execution_failure"
+                    and demo
+                    and getattr(registry.tools.get(name), "origin", "") == "general_approved"
+                    and general_builds < self.settings.general_tools_max_per_task
+                ):
+                    general_builds += 1
+                    self.record(
+                        "tool_improvement",
+                        "An approved model-written tool failed at runtime. Building an improved version from the failure.",
+                        tool=name,
+                        result={"error": exc.message[:200]},
+                    )
+                    return await self.draft_general(
+                        body,
+                        f"{goal}\nIMPROVE the earlier tool {name}: it failed with '{exc.message[:200]}' "
+                        f"on inputs {json.dumps(arguments)[:300]}. Fix that case and keep its purpose: "
+                        f"{registry.tools[name].description[:300]}",
+                        name,
+                        arguments,
+                        started,
+                        improving=name,
+                    )
                 if exc.code == "unknown_tool":
                     if (
                         not capability

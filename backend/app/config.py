@@ -68,6 +68,8 @@ class Settings(BaseSettings):
     demo_timeout_seconds: float = Field(default=5, ge=1, le=15)
     # Windows job-object cap for each demo child process (no effect elsewhere).
     demo_memory_mb: int = Field(default=256, ge=64, le=2048)
+    # A second model call scores each tool-backed answer (Reviewer agent).
+    reviewer_enabled: bool = False
     general_tools_max_per_task: int = Field(default=1, ge=0, le=3)
     agentic_max_recoveries: int = Field(default=3, ge=1, le=5)
     agentic_build_attempts: int = Field(default=2, ge=1, le=3)

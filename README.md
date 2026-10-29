@@ -20,6 +20,17 @@ Execute → Evaluate → Identify → Develop → Validate → Improve
 
 Fixed business contracts (revenue, profit, margin, break-even, ROI, median, selling price) are auto-generated, tested against a backend oracle and activated without approval. **General tools** (anything else) are model-tested only, labelled *not independently verified*, and need your approval before they are used in later tasks.
 
+## Built-in capabilities (v1)
+
+| Capability | How |
+| --- | --- |
+| **Knowledge / RAG** | Save policies, SOPs and notes under *Files & reports → Knowledge base*; the `search_documents` tool returns the best passages with their source (keyword TF-IDF, no extra services). |
+| **Trend and anomaly detection** | `analyze_trend` on a CSV/Excel column: direction, percent change, slope, outliers (|z| > 2). |
+| **Reviewer agent** | `REVIEWER_ENABLED=true`: a short second model call scores each tool-backed answer 1-5 against the tool results; weak scores become Reflexion lessons. |
+| **Agent roles** | Orchestrator (plan and loop), Analyst (data tools), Tool Builder, Validator (tests and oracles) and Reviewer, all visible in the workflow timeline. |
+| **Tool improvement** | If an approved model-written tool fails while running, the agent builds an improved version from the failure (stored, awaiting approval). |
+| **Human escalation** | Delete / payment / email / password / investment-advice requests are handed to a person instead of being acted on. |
+
 Evaluation metrics from the project deck (task success rate, tool accuracy, execution time, human intervention, tools built, lessons learned, regression rate) are on the Self-Development page and at `GET /metrics`.
 
 ## Run locally (Windows PowerShell)

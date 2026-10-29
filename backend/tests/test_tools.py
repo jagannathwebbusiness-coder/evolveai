@@ -145,6 +145,8 @@ def test_registry_allowlist_and_task_scope(tmp_path):
     assert {item["function"]["name"] for item in registry.definitions()} == {
         "calculate",
         "analyze_csv",
+        "analyze_trend",
+        "search_documents",
     }
     with pytest.raises(ToolError) as error:
         registry.validate("os.system", {"command": "whoami"})

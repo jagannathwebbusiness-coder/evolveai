@@ -267,8 +267,9 @@ def test_unsupported_gap_never_generates_code():
         )
     ) as client:
         response = request(client, goal="Send an email")
-        assert response.status_code == 422
-        assert response.json()["detail"]["code"] == "capability_blocked"
+        assert response.status_code == 200
+        kinds = [e["kind"] for e in response.json()["activity"]]
+        assert "escalated_to_human" in kinds
         assert not client.get("/improvement").json()["candidates"]
 
 

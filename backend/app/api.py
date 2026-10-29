@@ -5,9 +5,11 @@ from uuid import UUID
 
 from fastapi import APIRouter, Request, Query
 from fastapi.responses import FileResponse
+from pydantic import BaseModel, ConfigDict, Field
 
 from .llm_client import LLMError
 from .schemas import ConversationInput, PreferenceInput
+from .tools import knowledge
 from .tools.errors import ToolError
 from .tools.workspace_files import (
     ListFilesArgs,
@@ -219,3 +221,25 @@ def delete_file(file_id: UUID, request: Request, confirm: bool = False):
     workspace(request).cleanup(file_id)
     request.app.state.uploads.records.pop(file_id, None)
     return {"deleted": True}
+
+
+class NoteInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    title: str = Field(min_length=1, max_length=100)
+    content: str = Field(min_length=1, max_length=knowledge.MAX_NOTE_CHARS)
+
+
+@router.get("/knowledge")
+def knowledge_notes(request: Request):
+    return knowledge.list_notes(request.app.state.settings)
+
+
+@router.post("/knowledge", status_code=201)
+def add_knowledge(body: NoteInput, request: Request):
+    return knowledge.add_note(request.app.state.settings, body.title, body.content)
+
+
+@router.delete("/knowledge/{note_id}")
+def delete_knowledge(note_id: str, request: Request):
+    knowledge.delete_note(request.app.state.settings, note_id)
+    return {"deleted": note_id}

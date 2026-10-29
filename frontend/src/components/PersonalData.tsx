@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { jsonRequest, request } from "../lib/api";
+import Knowledge from "./Knowledge";
 import type { Preference, StoredFile, Task } from "../lib/api";
 import ActivityLog from "./ActivityLog";
 import DataDialog from "./DataDialog";
@@ -164,6 +165,7 @@ export default function PersonalData({
           Refresh data
         </button>
       </div>
+      {page !== "preferences" && <Knowledge />}
       {loading && <p role="status">Loading saved data…</p>}
       {error && (
         <p className="upload-error" role="alert">

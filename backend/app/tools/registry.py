@@ -9,6 +9,8 @@ from ..uploads import UploadStore
 from .calculator import CalculatorArgs, calculate
 from .csv_analysis import CSVArgs, analyze_frame, parse_csv
 from .excel import parse_xlsx
+from .knowledge import SearchArgs, search as search_knowledge
+from .trend import TrendArgs, analyze_trend
 from .errors import ToolError
 from .schema_validation import schema_errors
 from .workspace_files import ListFilesArgs, ReadFileArgs, ReportArgs, WorkspaceFiles
@@ -60,6 +62,18 @@ class ToolRegistry:
                 "Analyze a CSV or Excel (.xlsx) file explicitly attached to this task by its upload_id. For a workbook, pass `sheet` to choose a sheet (default: the first). Reports row count, columns, missing values, numeric summaries and duplicate rows. No filesystem paths or causal inference.",
                 CSVArgs,
                 self.analyze_csv,
+            ),
+            "analyze_trend": ToolSpec(
+                "analyze_trend",
+                "Find the trend (direction, percent change) and anomalies (outlier rows) of ONE numeric column in an attached CSV/Excel file, in row order. Use for trend, growth, decline, spike or unusual-value questions.",
+                TrendArgs,
+                self.analyze_trend,
+            ),
+            "search_documents": ToolSpec(
+                "search_documents",
+                "Search the user's saved business documents (policies, SOPs, notes) and return the best matching passages with their source. Use for questions about company policy or saved knowledge.",
+                SearchArgs,
+                lambda args: search_knowledge(settings, args),
             ),
         }
         if conversation_id:
@@ -151,6 +165,26 @@ class ToolRegistry:
     def execute(self, name: str, arguments: BaseModel) -> dict:
         # Built-ins are fixed callables; generated specs only invoke the OS adapter.
         return self.tools[name].implementation(arguments)
+
+    def analyze_trend(self, args: TrendArgs) -> dict:
+        record = self.uploads.get(args.upload_id, self.task_id, self.conversation_id)
+        data = self.uploads.read(args.upload_id, self.task_id, self.conversation_id)
+        sheet = None
+        if record.path.suffix != ".xlsx":
+            frame = parse_csv(data, self.settings)
+        else:
+            frames = parse_xlsx(data, self.settings)
+            sheet = args.sheet or next(iter(frames))
+            if sheet not in frames:
+                raise ToolError(
+                    "invalid_sheet",
+                    "Choose one of the workbook's non-empty sheets: " + ", ".join(frames),
+                )
+            frame = frames[sheet]
+        result = analyze_trend(frame, args.column)
+        if sheet:
+            result["sheet"] = sheet
+        return result
 
     def analyze_csv(self, args: CSVArgs) -> dict:
         record = self.uploads.get(args.upload_id, self.task_id, self.conversation_id)

@@ -13,6 +13,14 @@ type Metrics = {
   lessons_learned: number;
   lessons_recalled: number;
   regression_rate: number | null;
+  tools_improved: number;
+  average_review_score: number | null;
+  improvement: {
+    before_tasks: number;
+    before_success: number | null;
+    after_tasks: number;
+    after_success: number | null;
+  } | null;
 };
 
 const pct = (v: number | null) => (v === null ? "—" : `${Math.round(v * 100)}%`);
@@ -33,6 +41,14 @@ export default function Metrics() {
     ["Tools built / active", `${m.tools_built} / ${m.tools_active}`],
     ["Lessons learned", `${m.lessons_learned} (recalled ${m.lessons_recalled}×)`],
     ["Regression rate", pct(m.regression_rate)],
+    ["Tools improved", String(m.tools_improved)],
+    ["Reviewer score", m.average_review_score === null ? "—" : `${m.average_review_score}/5`],
+    [
+      "Success before → after 1st tool",
+      m.improvement
+        ? `${pct(m.improvement.before_success)} → ${pct(m.improvement.after_success)}`
+        : "—",
+    ],
     ["Tasks recorded", String(m.tasks)],
   ];
   return (

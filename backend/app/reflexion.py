@@ -54,6 +54,22 @@ def lessons_from(events, goal):
                     "not by repeating it.",
                 )
             )
+        elif kind == "self_review" and (result.get("score") or 5) <= 2:
+            found.append(
+                (
+                    "weak_answer",
+                    f"The reviewer judged the answer to '{goal[:80]}' weak: "
+                    f"{str(result.get('critique'))[:140]}",
+                )
+            )
+        elif kind == "tool_improvement":
+            found.append(
+                (
+                    "tool_improvement",
+                    f"{event.get('tool')} failed at runtime; an improved version was built "
+                    "from the failure instead of retrying the same call.",
+                )
+            )
         elif kind == "failure":
             found.append(("task_failure", f"Task ended in failure: {event.get('message', '')[:140]}"))
     unique, seen = [], set()

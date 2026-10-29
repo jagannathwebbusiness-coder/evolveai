@@ -20,6 +20,8 @@ services:
       # subprocess on this server (not a secure sandbox), so keep ACCESS_PASSWORD set.
       - key: DEMO_MODE
         value: "true"
+      - key: REVIEWER_ENABLED
+        value: "true"
       # Free Render disks are ephemeral: data resets on restart/redeploy.
       - key: EVOLVE_DATA_DIR
         value: /tmp/evolve/data

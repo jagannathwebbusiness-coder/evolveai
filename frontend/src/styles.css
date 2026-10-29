@@ -1898,3 +1898,44 @@ a {
 .metrics li b {
   font-size: 18px;
 }
+
+.knowledge {
+  border: 1px solid #c6d4bb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: #f6f9f2;
+}
+.knowledge h3 {
+  margin: 0 0 6px;
+}
+.knowledge form {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0;
+}
+.knowledge input[type="text"],
+.knowledge input:not([type]),
+.knowledge textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #c6d4bb;
+  border-radius: 8px;
+  font: inherit;
+}
+.knowledge button {
+  justify-self: start;
+}
+.knowledge ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+.knowledge li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
