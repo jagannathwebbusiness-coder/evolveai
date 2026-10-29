@@ -33,8 +33,6 @@ class Settings(BaseSettings):
     llm_api_key: SecretStr = SecretStr("")
     llm_base_url: str = ""
     llm_model: str = ""
-    # Hosted deployments: when set, every API call except /health needs the login cookie.
-    access_password: SecretStr = SecretStr("")
     llm_timeout_seconds: float = Field(default=60, ge=1, le=300)
     llm_status_timeout_seconds: float = Field(default=10, ge=1, le=60)
     llm_max_output_tokens: int = Field(default=1024, ge=64, le=8192)

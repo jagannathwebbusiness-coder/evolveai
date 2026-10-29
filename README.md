@@ -35,6 +35,8 @@ Evaluation metrics from the project deck (task success rate, tool accuracy, exec
 
 ## Run locally (Windows PowerShell)
 
+EVOLVE runs entirely on your computer. The only outside call is the model API (Groq by default), made from the backend with your key.
+
 ```powershell
 Set-Location 'D:\evolve ai'
 .\start.ps1            # backend :8000 + Vite :5173, opens the browser
@@ -47,14 +49,6 @@ First run creates the venv, installs packages and a `.env` from `.env.example`. 
 ## Files, Excel and reports
 
 Attach a `.csv` or `.xlsx` (formulas are never evaluated; macros, `.xls` and oversized files are rejected). The agent picks a sheet by name. It can also read workspace files and save reports. A sample is in `examples/profit_loss_small.xlsx`.
-
-## Deploying (Render backend + Vercel frontend)
-
-1. **Render:** New → Blueprint from this repo (`render.yaml`). Set `LLM_API_KEY` and `ACCESS_PASSWORD`. Build `pip install -r backend/requirements.txt`, start `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips "*"`.
-2. **Vercel:** import the repo, Root Directory `frontend`. `frontend/vercel.json` forwards `/api/*` to the Render URL.
-3. Open the Vercel URL and enter the access password.
-
-The free Render disk is temporary, so chats, tools and lessons reset on restart. `DEMO_MODE=true` on Render lets the agent build tools there; generated code then runs in a restricted subprocess on that server (see the warning below), so keep `ACCESS_PASSWORD` set. Approving tools needs a localhost session.
 
 ## Safety
 

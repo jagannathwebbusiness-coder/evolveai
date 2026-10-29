@@ -1841,28 +1841,6 @@ a {
   justify-self: start;
 }
 
-.gate {
-  max-width: 340px;
-  margin: 20vh auto 0;
-  display: grid;
-  gap: 12px;
-  padding: 0 16px;
-}
-.gate input {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #c6d4bb;
-  border-radius: 8px;
-  font: inherit;
-}
-.gate [role="alert"] {
-  color: #9b2c2c;
-  margin: 0;
-}
-.gate-wait {
-  text-align: center;
-  margin-top: 20vh;
-}
 
 .agent-badge {
   font-size: 11.5px;

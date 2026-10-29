@@ -13,7 +13,6 @@ from fastapi.responses import JSONResponse
 from starlette.concurrency import run_in_threadpool
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from .access import COOKIE, AccessGate, is_authorized, session_value
 from . import metrics
 from .config import Settings
 from .api import router
@@ -132,52 +131,6 @@ def create_app(
     app.include_router(router)
     app.include_router(improvement_router)
     app.add_middleware(RequestSizeLimit, upload_max_bytes=settings.upload_max_bytes)
-    password = settings.access_password.get_secret_value()
-    app.add_middleware(AccessGate, password=password)
-
-    @app.get("/auth/status")
-    async def auth_status(request: Request):
-        return {
-            "required": bool(password),
-            "authorized": not password or is_authorized(request, password),
-        }
-
-    @app.post("/auth/login")
-    async def auth_login(request: Request):
-        try:
-            supplied = str((await request.json()).get("password", ""))
-        except Exception:
-            supplied = ""
-        if not password or not secrets.compare_digest(
-            supplied.encode(), password.encode()
-        ):
-            await asyncio.sleep(1)  # slow down guessing
-            return JSONResponse(
-                status_code=401,
-                content={
-                    "detail": {
-                        "code": "bad_password",
-                        "message": "Wrong access password.",
-                    }
-                },
-            )
-        response = JSONResponse({"authorized": True})
-        secure = request.headers.get("x-forwarded-proto", request.url.scheme) == "https"
-        response.set_cookie(
-            COOKIE,
-            session_value(password),
-            max_age=7 * 24 * 3600,
-            httponly=True,
-            secure=secure,
-            samesite="lax",
-        )
-        return response
-
-    @app.post("/auth/logout")
-    async def auth_logout():
-        response = JSONResponse({"authorized": False})
-        response.delete_cookie(COOKIE)
-        return response
 
     @app.exception_handler(MissingRecord)
     @app.exception_handler(Conflict)

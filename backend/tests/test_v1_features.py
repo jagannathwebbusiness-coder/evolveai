@@ -86,3 +86,10 @@ def test_reviewer_agent_scores_and_appends_to_the_answer():
         assert "Self-review: 4/5" in response.json()["message"]
         assert "self_review" in [e["kind"] for e in response.json()["activity"]]
         assert client.get("/metrics").json()["average_review_score"] == 4.0
+
+
+def test_metrics_endpoint_reports_deck_metrics():
+    with TestClient(create_app(Settings(_env_file=None))) as c:
+        data = c.get("/metrics").json()
+        assert {"task_success_rate", "tool_accuracy", "regression_rate", "tools_built", "lessons_learned"} <= set(data)
+        assert data["tasks"] == 0 and data["task_success_rate"] is None
